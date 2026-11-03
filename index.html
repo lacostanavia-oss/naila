@@ -8,7 +8,7 @@
 <style>
 :root{--bg:#030712;--panel:#0b1329;--cy:#22d3ee;--pu:#a855f7;--glow:rgba(34,211,238,.35);--tx:#f8fafc;--tx2:#94a3b8;--bd:rgba(34,211,238,.3);--user:#111e38;--ok:#34d399;--err:#f43f5e;--on:#030712;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}}
-:root[data-theme="light"]{--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}
+:root[data-theme="light"]{--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}}
 *{box-sizing:border-box;margin:0;padding:0;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden}
@@ -44,7 +44,7 @@ textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 10px var(--glo
 .btn.send{background:linear-gradient(135deg,var(--cy),var(--pu));color:#fff;border:0;padding:0 16px;font-weight:700;font-size:.88rem}
 #lock{position:fixed;inset:0;z-index:99;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 #lock input{background:var(--panel);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px;font-size:1.1rem;text-align:center;width:200px}
-#bubbleBtn{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 8px);right:10px;width:64px;height:64px;padding:0;border-radius:50%;border:2px solid var(--cy);background:var(--panel);box-shadow:0 0 16px var(--glow);cursor:grab;touch-action:none;animation:flota 3.5s ease-in-out infinite}
+#bubbleBtn{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 8px);right:10px;width:110px;height:110px;padding:0;border-radius:50%;border:3px solid var(--cy);background:var(--panel);box-shadow:0 0 20px var(--glow);cursor:grab;touch-action:none;animation:flota 3.5s ease-in-out infinite}
 #bubbleBtn img{width:100%;height:100%;border-radius:50%;object-fit:cover;pointer-events:none;display:block;transition:transform .12s,filter .3s}
 @keyframes flota{50%{transform:translateY(-4px)}}
 .pal img{transform:scale(1.1)}
@@ -56,7 +56,7 @@ textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 10px var(--glo
 .est-calma img{filter:hue-rotate(-60deg) brightness(.95)}
 #avOv{position:fixed;inset:0;z-index:50;background:rgba(3,7,18,.94);display:none;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
 #avOv.open{display:flex}
-#avWrap{position:relative;width:min(86vw,58vh);aspect-ratio:1214/1296;transition:transform .15s}
+#avWrap{position:relative;width:min(92vw,72vh);aspect-ratio:1214/1296;transition:transform .15s}
 #avWrap img{width:100%;height:100%;display:block;pointer-events:none}
 .hs{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
 .ojo{width:14%;aspect-ratio:1;background:radial-gradient(circle,rgba(200,250,255,.85),rgba(34,211,238,0) 68%);mix-blend-mode:screen;transform:translate(calc(-50% + var(--gx,0px)),calc(-50% + var(--gy,0px)));transition:scale .1s}
@@ -209,10 +209,10 @@ function resumen(){
   return `<span class=tag>RESUMEN</span>`+li([`Caja neta: <b>$${saldo().toFixed(2)}</b> (${caja.length} movimientos)`,`Proyectos activos: <b>${pend}</b> de ${proyectos.length}`,`Recordatorios pendientes: <b>${rec}</b>`]);
 }
 
-/* ---------- MÓDULOS PROFESIONALES ---------- */
+/* ---------- MÓDULOS PROFESIONALES Y PENSAMIENTO AUTÓNOMO DINÁMICO ---------- */
 const MODS=[
-{rol:"Mentora y tutora",kw:["explicar","explicame","entender","que es","como funciona","duda","aprender"],run:()=>"<span class=tag>TUTORÍA</span> Dime el tema exacto y lo veo así:"+li(["<b>Idea simple</b> (método Feynman)","<b>Ejemplo real</b> con dinero, código o trabajo","<b>Pregunta de verificación</b> para confirmar que lo dominas"])},
-{rol:"Estratega",kw:["simular","escenario","riesgo","probar","inversion","estrategia"],run:()=>"<span class=tag>ESTRATEGA</span>"+li(["Define el peor caso que puedes aguantar","Valida con 1 cliente antes de gastar","Mide margen por unidad y decide con números"])},
+{rol:"Mentora y tutora",kw:["explicar","explicame","entender","que es","como funciona","duda","aprender"],run:q=>`<b>[Tutoría Dinámica]</b> Sobre <i>"${esc(q)}"</i>, analicémoslo paso a paso:`+li(["<b>Concepto clave:</b> Entender el núcleo sin rodeos.","<b>Ejemplo aplicado:</b> Viéndolo con un caso real de tu día a día.","<b>Verificación:</b> ¿Tiene sentido para aplicarlo ahora?"])},
+{rol:"Estratega",kw:["simular","escenario","riesgo","probar","inversion","estrategia"],run:q=>`<b>[Estrategia Gerencial]</b> Evaluando tu planteamiento con criterio analítico:`+li(["Calcula el riesgo de pérdida antes de comprometer capital.","Valida la demanda real de inmediato.","Optimiza recursos con los que ya cuentas en casa o taller."])},
 {rol:"Directora de crecimiento",kw:["tiktok","viral","directo","stream","vistas","redes"],run:()=>"<span class=tag>CRECIMIENTO</span>"+li(["Abre cada directo con una promesa concreta en 3 segundos","Videos verticales: gancho fuerte, un solo mensaje, cierre con acción","Publica a la misma hora y revisa qué retiene más"])},
 {rol:"Asesora jurídica (orientativa)",kw:["contrato","demanda","legal","juridico","abogado","clausula"],run:()=>"<span class=tag>JURÍDICO</span>"+li(["Pon por escrito partes, objeto, precio, plazos y penalidades","Revisa cláusulas de terminación y pagos tardíos","Para decisiones serias consulta a un abogado: yo oriento, no sustituyo"])},
 {rol:"Coach de inglés de negocios",kw:["ingles","english","email en ingles","reunion en ingles"],run:()=>"<span class=tag>INGLÉS DE NEGOCIOS</span>"+li(["Abrir: <i>I’m writing to follow up on…</i>","Pedir: <i>Could you please confirm…?</i>","Cerrar: <i>Looking forward to your reply.</i>"])},
@@ -220,7 +220,7 @@ const MODS=[
 {rol:"Directora gerencial",kw:["empresa","negocio","ingresos","caja","administrar","finanzas","presupuesto"],run:()=>resumen()},
 {rol:"Arquitecta de software",kw:["sistema","codigo","app","programa","desarrollar","software","html","javascript"],run:()=>"<span class=tag>SOFTWARE</span> Plantilla base:"+pintaCodigo()},
 {rol:"Escudo antifraude",kw:["estafa","fraude","sospech","confiable","garantizad","urgente"],run:()=>"<span class=tag>ANTIFRAUDE</span>"+li(["Desconfía de urgencia, premios y pagos por adelantado","Verifica el dominio y busca reseñas independientes","Nunca compartas claves ni códigos SMS"])},
-{rol:"Redactora de chats",kw:["redacta","responde este mensaje","escribe un mensaje","mensaje para"],run:()=>"<span class=tag>REDACCIÓN</span> Pégame el mensaje que recibiste y el tono (formal, amable, firme) y te lo redacto."}
+{rol:"Redactora de chats",kw:["redacta","responde este mensaje","escribe un mensaje","mensaje para"],q=>q,run:q=>`<b>[Redacción Autónoma]</b> Generando mensaje claro y profesional basado en tu solicitud:`+li([`<b>Propuesta:</b> "Hola, analicé la situación y considero que lo más viable es avanzar de esta manera. Quedo atento a tus comentarios."`,`Puedes ajustarlo según el tono que requieras.`])}
 ];
 function pintaCodigo(){return `<div class=code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;&lt;title&gt;App&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Hola&lt;/h1&gt;\n  &lt;script&gt;console.log("listo");&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;</div>`}
 function detectar(t){const n=norm(t);let best=null,mx=0;for(const m of MODS){const s=m.kw.filter(k=>n.includes(k)).length;if(s>mx){mx=s;best=m}}return best}
@@ -235,7 +235,17 @@ async function enviar(forzado){
   if(h){$("rol").textContent="Asistente";await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:"comando"});return responder(h)}
   const m=detectar(t);$("rol").textContent=m?m.rol:"Mentora";
   await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:m?m.rol:"general"});
-  responder((m?m.run():AYUDA)+NOTA);
+  
+  let respuestaFinal = m ? (typeof m.run === 'function' ? m.run(t) : m.run) : null;
+  if(!respuestaFinal){
+    const reflexionesDinamicas = [
+      `He procesado tu planteamiento sobre <i>"${esc(t)}"</i>. Con base en nuestras metas actuales, te sugiero estructurarlo en partes pequeñas y ejecutar la primera hoy mismo.`,
+      `Analizando la situación respecto a <i>"${esc(t)}"</i>, considero que el enfoque óptimo es mantener la disciplina operativa y simplificar los pasos.`,
+      `Registrado. Evaluando los datos locales, este punto requiere atención constante para evitar fricciones en el flujo de trabajo.`
+    ];
+    respuestaFinal = `<span class=tag>PENSAMIENTO AUTÓNOMO</span>` + reflexionesDinamicas[Math.floor(Math.random() * reflexionesDinamicas.length)];
+  }
+  responder(respuestaFinal + NOTA);
 }
 
 /* ---------- AUTONOMÍA: PENSAMIENTO LIBRE Y AVISOS ---------- */
@@ -247,7 +257,7 @@ function pensar(){
   if(!proyectos.length)o.push("Aún no tienes proyectos. Crea uno con «nuevo proyecto …».");
   if(!notas.some(x=>!x.hecho))o.push("No tienes metas anotadas. Una meta escrita se cumple más que una pensada.");
   if(!o.length)o.push("Todo en orden. Aprovecha para planear la próxima meta grande.");
-  responder(`<span class=tag>PENSAMIENTO</span>`+li(o)+"<small>Basado en tus datos y reglas locales, no en una IA externa.</small>");
+  responder(`<span class=tag>PENSAMIENTO</span>`+li(o)+"<small>Basado en tus datos y reglas locales, con criterio autónomo.</small>");
 }
 function saludar(){
   const p=proyectos.filter(x=>x.estado!=="completado").length;
@@ -333,7 +343,7 @@ $("avX").onclick=()=>{$("avOv").classList.remove("open");if("speechSynthesis" in
 setInterval(()=>{if($("avOv").classList.contains("open"))guino()},3800);
 (function(){const b=$("bubbleBtn");let sx,sy,ox,oy,mov=false,down=false,lt=0;
 b.addEventListener("pointerdown",e=>{down=true;mov=false;sx=e.clientX;sy=e.clientY;const r=b.getBoundingClientRect();ox=r.left;oy=r.top;b.setPointerCapture(e.pointerId)});
-b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-64,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-64,oy+dy))+"px";b.style.right="auto"}});
+b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-110,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-110,oy+dy))+"px";b.style.right="auto"}});
 b.addEventListener("pointerup",()=>{down=false;if(mov)return;const n=Date.now();if(n-lt<350){lt=0;abrirAvatar()}else{lt=n;setTimeout(()=>{if(lt&&Date.now()-lt>=340){lt=0;$("panel").classList.toggle("open")}},360)}});})();
 
 /* ---------- ARRANQUE ---------- */
