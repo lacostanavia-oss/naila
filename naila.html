@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="naila-cara.webp">
+<title>Naila · Asistente Personal</title>
+<style>
+:root{--bg:#030712;--panel:#0b1329;--cy:#22d3ee;--pu:#a855f7;--glow:rgba(34,211,238,.35);--tx:#f8fafc;--tx2:#94a3b8;--bd:rgba(34,211,238,.3);--user:#111e38;--ok:#34d399;--err:#f43f5e;--on:#030712;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}}
+:root[data-theme="light"]{--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden}
+header{position:relative;background:var(--panel);padding:14px 60px;text-align:center;border-bottom:1px solid var(--bd)}
+header h1{font-size:1.25rem;color:var(--cy);letter-spacing:4px;font-weight:800}
+header p{font-size:.75rem;color:var(--tx2);margin-top:2px}
+#panel{display:none;position:absolute;z-index:10;top:100%;right:8px;left:8px;max-width:380px;max-height:72vh;overflow-y:auto;margin-left:auto;background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px;font-size:.82rem;color:var(--tx2);text-align:left;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+#panel.open{display:block}
+#panel p{margin-bottom:6px}#panel b{color:var(--tx)}
+#mem{margin:8px 0;max-height:110px;overflow-y:auto;font-size:.75rem;border:1px solid var(--bd);padding:6px;border-radius:8px}
+.gb{border:1px solid var(--bd);border-radius:10px;padding:8px;margin:8px 0;font-size:.78rem}
+.gb b{color:var(--cy)}
+.pb{background:var(--bg);border-radius:999px;height:8px;overflow:hidden;margin-top:4px;border:1px solid var(--bd)}
+.pf{background:linear-gradient(90deg,var(--cy),var(--ok));height:100%;width:0;transition:width .4s}
+#panel button{background:none;border:1px solid var(--bd);color:var(--cy);border-radius:8px;padding:7px 10px;font-size:.75rem;margin:3px 4px 0 0;cursor:pointer}
+main{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:720px;width:100%;margin:0 auto}
+.msg{padding:12px 16px;border-radius:16px;max-width:94%;font-size:.92rem;line-height:1.5;border:1px solid var(--bd);animation:in .25s ease;overflow-wrap:anywhere}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.msg.a{background:var(--panel);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.u{background:var(--user);color:var(--cy);align-self:flex-end;border-bottom-right-radius:4px}
+.msg ul{padding-left:20px;margin-top:6px}.tag{color:var(--cy);font-weight:800;letter-spacing:.5px}
+.msg small{display:block;margin-top:8px;color:var(--tx2);font-size:.75rem;border-top:1px dashed var(--bd);padding-top:4px}
+.code{background:#010409;border:1px solid var(--cy);border-radius:10px;padding:12px;margin-top:10px;font-family:monospace;font-size:.82rem;color:#38bdf8;overflow-x:auto;white-space:pre-wrap}
+footer{background:var(--panel);border-top:1px solid var(--bd);padding:10px 14px;max-width:720px;width:100%;margin:0 auto}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.chip{flex:none;background:transparent;color:var(--cy);border:1px solid var(--bd);border-radius:999px;padding:7px 14px;font-size:.78rem;cursor:pointer;white-space:nowrap;font-weight:600}
+.chip:active{background:var(--cy);color:var(--on)}
+.row{display:flex;gap:10px;align-items:flex-end}
+textarea{flex:1;resize:none;background:var(--bg);border:1px solid var(--bd);border-radius:14px;color:var(--tx);padding:12px 14px;font-size:.95rem;max-height:120px}
+textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 10px var(--glow)}
+.btn{min-width:46px;height:46px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);color:var(--cy);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+.btn.on{background:var(--cy);color:var(--on)}
+.btn.send{background:linear-gradient(135deg,var(--cy),var(--pu));color:#fff;border:0;padding:0 16px;font-weight:700;font-size:.88rem}
+#lock{position:fixed;inset:0;z-index:99;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+#lock input{background:var(--panel);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px;font-size:1.1rem;text-align:center;width:200px}
+#bubbleBtn{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 8px);right:10px;width:64px;height:64px;padding:0;border-radius:50%;border:2px solid var(--cy);background:var(--panel);box-shadow:0 0 16px var(--glow);cursor:grab;touch-action:none;animation:flota 3.5s ease-in-out infinite}
+#bubbleBtn img{width:100%;height:100%;border-radius:50%;object-fit:cover;pointer-events:none;display:block;transition:transform .12s,filter .3s}
+@keyframes flota{50%{transform:translateY(-4px)}}
+.pal img{transform:scale(1.1)}
+#bubbleBtn.hablando{box-shadow:0 0 24px var(--pu)}
+#bubbleBtn.est-escucha{box-shadow:0 0 0 4px var(--cy),0 0 22px var(--cy)}
+#bubbleBtn.est-alerta{box-shadow:0 0 24px var(--err)}
+.est-feliz img{filter:hue-rotate(50deg) saturate(1.3)}
+.est-alerta img{filter:hue-rotate(120deg) saturate(1.4)}
+.est-calma img{filter:hue-rotate(-60deg) brightness(.95)}
+#avOv{position:fixed;inset:0;z-index:50;background:rgba(3,7,18,.94);display:none;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
+#avOv.open{display:flex}
+#avWrap{position:relative;width:min(86vw,58vh);aspect-ratio:1214/1296;transition:transform .15s}
+#avWrap img{width:100%;height:100%;display:block;pointer-events:none}
+.hs{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
+.ojo{width:14%;aspect-ratio:1;background:radial-gradient(circle,rgba(200,250,255,.85),rgba(34,211,238,0) 68%);mix-blend-mode:screen;transform:translate(calc(-50% + var(--gx,0px)),calc(-50% + var(--gy,0px)));transition:scale .1s}
+.guino .ojo{scale:1 .1}
+.mano{width:22%;aspect-ratio:1}
+.boca{width:10%;height:4%;border-radius:50%;background:radial-gradient(ellipse,rgba(255,110,190,.6),transparent 70%);scale:1 .25;transition:scale .1s}
+.pal .boca{scale:1 1}
+#avCap{color:var(--tx);font-size:.9rem;text-align:center;padding:12px 20px;min-height:56px;max-width:420px}
+#avX{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px}
+.spk{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px var(--cy);animation:sp .9s ease-out forwards;pointer-events:none}
+@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.wave{animation:wv .6s ease-in-out}
+@keyframes wv{25%{rotate:-4deg}75%{rotate:4deg}}
+</style>
+</head>
+<body>
+<div id="lock"><h1 style="color:var(--cy)">NAILA</h1><p style="color:var(--tx2)">Solo el dueño puede entrar</p><input id="pinIn" type="password" inputmode="numeric" placeholder="PIN"><button class="btn send" id="pinOk" style="height:42px">Entrar</button></div>
+<header>
+<h1>NAILA</h1><p>Asistente personal · Multiprofesional</p>
+<button id="bubbleBtn" aria-label="Naila: toca para el panel, doble toque para el avatar"><img alt="" src="naila-cara.webp"></button>
+<div id="panel">
+<p><b>Rol:</b> <span id="rol">Mentora</span></p>
+<p><b>Red:</b> <span id="net">…</span></p>
+<div class="gb"><b>📊 Control gerencial</b><p id="stats" style="margin:4px 0 0"></p><div class="pb"><div class="pf" id="pf"></div></div><small id="cuello" style="display:block;margin-top:4px"></small></div>
+<div id="mem"></div>
+<button id="bAvatar">🧍 Avatar</button>
+<button id="bPensar">💭 Pensamiento libre</button>
+<button id="bCaja">💰 Caja</button>
+<button id="bProy">📁 Proyecto</button>
+<button id="bResumen">📊 Resumen</button>
+<button id="bWake">🗣️ Palabra «Naila»</button>
+<button id="bMute">🔊 Voz</button>
+<button id="bMp3">🎙️ MP3</button>
+<button id="bImg">🖼️ Galería</button>
+<button id="bExp">📥 Exportar</button>
+<button id="bCrypt">🔒 Cifrar respaldo</button>
+<button id="bPin">🔑 PIN</button>
+<button id="bCode">💻 Código</button>
+<button id="bTema">🌓 Tema</button>
+<button id="bClear">🗑️ Purgar</button>
+</div>
+</header>
+<main id="chat" aria-live="polite"></main>
+<footer>
+<div class="chips" id="chips"></div>
+<div class="row">
+<textarea id="inp" rows="1" placeholder="Escribe o habla: gasté 20 en comida, recuérdame en 10 minutos…"></textarea>
+<button class="btn" id="mic" aria-label="Escuchar continuamente">🎤</button>
+<button class="btn send" id="send">Ejecutar</button>
+</div>
+<input type="file" id="fMp3" accept="audio/*" hidden>
+<input type="file" id="fImg" accept="image/*" multiple hidden>
+</footer>
+<div id="avOv"><button class="btn" id="avX" aria-label="Cerrar">✕</button><div id="avWrap"><img alt="Naila" src="naila.webp"></div><div id="avCap"></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const li=a=>"<ul>"+a.map(x=>"<li>"+x+"</li>").join("")+"</ul>";
+const NOTA="<small>Naila funciona en tu dispositivo: tus datos no salen de aquí.</small>";
+const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+let db=null,memoria=[],caja=[],proyectos=[],notas=[],vozOn=true,mp3URL=null,rec=null,escuchando=false,wake=LS.get("wake")==="1";
+const saldo=()=>caja.reduce((a,t)=>t.tipo==="ingreso"?a+t.monto:a-t.monto,0);
+
+/* ---------- BASE DE DATOS ---------- */
+const STORES=["kernel","caja","proyectos","notas"];
+function initDB(){
+  let req;
+  try{req=indexedDB.open("NailaGerenciaDB",11)}catch(e){addMsg("⚠️ Este navegador no permite memoria local.","a");return}
+  req.onerror=()=>addMsg("⚠️ No pude abrir la memoria local.","a");
+  req.onupgradeneeded=e=>{const d=e.target.result;STORES.forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:"id",autoIncrement:true})})};
+  req.onsuccess=e=>{db=e.target.result;sync().then(saludar)};
+}
+const all=n=>new Promise(r=>{db.transaction(n).objectStore(n).getAll().onsuccess=e=>r(e.target.result)});
+const wr=(n,o,op="add")=>new Promise(r=>{const t=db.transaction(n,"readwrite");t.objectStore(n)[op](o);t.oncomplete=r;t.onerror=r});
+async function sync(){if(!db)return;[memoria,caja,proyectos,notas]=await Promise.all(STORES.map(all));render()}
+
+/* ---------- PANEL ---------- */
+function render(){
+  $("stats").textContent=`Caja neta: $${saldo().toFixed(2)} | Proyectos: ${proyectos.length}`;
+  const ok=proyectos.filter(p=>p.estado==="completado").length;
+  $("pf").style.width=(proyectos.length?Math.round(ok/proyectos.length*100):0)+"%";
+  const pend=proyectos.filter(p=>p.estado!=="completado");
+  $("cuello").textContent="Cuello de botella: "+(pend[0]?pend[0].nombre:"ninguno");
+  $("cuello").style.color=pend[0]?"var(--err)":"var(--ok)";
+  const m=$("mem");m.innerHTML="";
+  const items=[...proyectos.map(p=>`• ${p.estado==="completado"?"✅":"🔹"} ${p.nombre}`),...notas.filter(n=>!n.hecho).map(n=>`• ${n.tipo==="rec"?"⏰":"📝"} ${n.texto}`)];
+  if(!items.length)m.textContent="Sin proyectos ni notas.";
+  items.forEach(t=>{const d=document.createElement("div");d.textContent=t;m.appendChild(d)});
+}
+function verRed(){const s=$("net");s.textContent=navigator.onLine?"Conectado":"Sin conexión (modo seguro)";s.style.color=navigator.onLine?"var(--ok)":"var(--cy)"}
+addEventListener("online",verRed);addEventListener("offline",verRed);
+
+/* ---------- CHAT Y VOZ ---------- */
+function addMsg(h,t){const d=document.createElement("div");d.className="msg "+t;d.innerHTML=h;$("chat").appendChild(d);$("chat").scrollTop=$("chat").scrollHeight}
+function hablar(h){
+  if(!vozOn)return;
+  const txt=String(h).replace(/<small>.*?<\/small>/g,"").replace(/<[^>]+>/g," ").replace(/&[a-z]+;/g," ").replace(/\s+/g," ").trim().slice(0,260);
+  const b=$("bubbleBtn");
+  if(mp3URL){const a=new Audio(mp3URL);b.classList.add("hablando");a.onended=a.onerror=()=>b.classList.remove("hablando");a.play().catch(()=>b.classList.remove("hablando"));return}
+  if(!("speechSynthesis" in window)||!txt)return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(txt);u.lang="es-ES";
+  let iv=null;const fin=()=>{clearInterval(iv);b.classList.remove("hablando");estado(base())};b.classList.add("hablando");u.onstart=()=>{iv=setInterval(palabra,300)};u.onboundary=palabra;u.onend=u.onerror=fin;
+  speechSynthesis.speak(u);
+}
+function responder(h){addMsg(h,"a");estado(emocion(h));hablar(h)}
+
+function setMic(){$("mic").classList.toggle("on",escuchando);estado(base())}
+function escuchar(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){responder("Tu navegador no tiene reconocimiento de voz. En Android usa Chrome.");return}
+  if(escuchando){escuchando=false;try{rec.stop()}catch(e){}setMic();return}
+  rec=new SR();rec.lang="es-ES";rec.continuous=true;rec.interimResults=false;
+  rec.onresult=e=>{
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(!e.results[i].isFinal)continue;
+      let t=e.results[i][0].transcript.trim();
+      if(("speechSynthesis" in window)&&speechSynthesis.speaking)continue;
+      if(wake){if(!norm(t).includes("naila"))continue;t=t.replace(/naila[,.:]?\s*/i,"")}
+      if(t)enviar(t);
+    }
+  };
+  rec.onerror=e=>{if(e.error==="not-allowed"||e.error==="service-not-allowed"){escuchando=false;setMic();addMsg("Permite el micrófono para usar tu voz.","a")}};
+  rec.onend=()=>{if(escuchando)setTimeout(()=>{try{rec.start()}catch(e){}},300);else setMic()};
+  escuchando=true;setMic();
+  try{rec.start()}catch(e){escuchando=false;setMic()}
+}
+
+/* ---------- COMANDOS (texto o voz) ---------- */
+const monto=n=>{const m=n.match(/(\d+(?:[.,]\d+)?)/);return m?parseFloat(m[1].replace(",",".")):NaN};
+async function comando(t){
+  const n=norm(t);let m;
+  if(/(^| )(gaste|gasto|pague|compre)( |$)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"gasto",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA</span> Gasto de $${v.toFixed(2)} registrado. Caja neta: $${saldo().toFixed(2)}.`}
+  if(/(ingreso|cobre|gane|recibi|vendi)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"ingreso",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA</span> Ingreso de $${v.toFixed(2)} registrado. Caja neta: $${saldo().toFixed(2)}.`}
+  if(/(cuanto tengo|saldo|resumen|como voy)/.test(n))return resumen();
+  if(m=n.match(/(?:nuevo proyecto|crear proyecto|proyecto)\s+(.+)/)){const nom=t.replace(/.*?proyecto\s+/i,"").trim();await wr("proyectos",{nombre:nom,ingresos:0,estado:"activo"});await sync();return `<span class=tag>PROYECTO</span> Creé el proyecto <b>${esc(nom)}</b>.`}
+  if(m=n.match(/(?:completa|termina|termine|finaliza)\w*\s+(?:el\s+)?(?:proyecto\s+)?(.+)/)){const p=proyectos.find(x=>norm(x.nombre).includes(m[1].trim()));if(p){p.estado="completado";await wr("proyectos",p,"put");await sync();return `<span class=tag>PROYECTO</span> ${esc(p.nombre)} marcado como completado. 🎯`}return "No encontré ese proyecto."}
+  if(m=n.match(/recuerdame en (\d+)\s*(minuto|hora|segundo)\w*\s*(.*)/)){const k={segundo:1e3,minuto:6e4,hora:36e5}[m[2]],txt=m[3]||"Recordatorio";await wr("notas",{tipo:"rec",texto:txt,due:Date.now()+m[1]*k,hecho:false});await sync();if("Notification" in window&&Notification.permission==="default")Notification.requestPermission();return `<span class=tag>RECORDATORIO</span> Te aviso en ${m[1]} ${m[2]}(s): ${esc(txt)}. Debe estar abierta la app.`}
+  if(m=n.match(/^(?:anota|nota|meta|apunta)\w*\s+(.+)/)){const txt=t.replace(/^\S+\s+/,"");await wr("notas",{tipo:"meta",texto:txt,hecho:false});await sync();return `<span class=tag>MEMORIA</span> Guardado: ${esc(txt)}.`}
+  if(/(que recuerdas|mis metas|mis notas|que tengo pendiente)/.test(n)){const a=notas.filter(x=>!x.hecho);return `<span class=tag>MEMORIA</span> `+(a.length?li(a.map(x=>esc(x.texto))):"No tienes notas ni metas pendientes.")}
+  if(/(que hora|que dia)/.test(n))return `Son las ${new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})} del ${new Date().toLocaleDateString("es",{weekday:"long",day:"numeric",month:"long"})}.`;
+  if(/(modo zen|relaj|respira)/.test(n))return `<span class=tag>MODO ZEN</span> Inhala 4 segundos, sostén 4, exhala 6. Repite 5 veces. Después elige una sola tarea.`;
+  if(/(silencio|callate|mutea)/.test(n)){vozOn=false;$("bMute").textContent="🔇 Mute";return "Voz desactivada."}
+  if(/(cambia.*tema|modo oscuro|modo claro)/.test(n)){tema();return "Tema cambiado."}
+  return null;
+}
+function resumen(){
+  const pend=proyectos.filter(p=>p.estado!=="completado").length,rec=notas.filter(x=>!x.hecho&&x.tipo==="rec").length;
+  return `<span class=tag>RESUMEN</span>`+li([`Caja neta: <b>$${saldo().toFixed(2)}</b> (${caja.length} movimientos)`,`Proyectos activos: <b>${pend}</b> de ${proyectos.length}`,`Recordatorios pendientes: <b>${rec}</b>`]);
+}
+
+/* ---------- MÓDULOS PROFESIONALES ---------- */
+const MODS=[
+{rol:"Mentora y tutora",kw:["explicar","explicame","entender","que es","como funciona","duda","aprender"],run:()=>"<span class=tag>TUTORÍA</span> Dime el tema exacto y lo veo así:"+li(["<b>Idea simple</b> (método Feynman)","<b>Ejemplo real</b> con dinero, código o trabajo","<b>Pregunta de verificación</b> para confirmar que lo dominas"])},
+{rol:"Estratega",kw:["simular","escenario","riesgo","probar","inversion","estrategia"],run:()=>"<span class=tag>ESTRATEGA</span>"+li(["Define el peor caso que puedes aguantar","Valida con 1 cliente antes de gastar","Mide margen por unidad y decide con números"])},
+{rol:"Directora de crecimiento",kw:["tiktok","viral","directo","stream","vistas","redes"],run:()=>"<span class=tag>CRECIMIENTO</span>"+li(["Abre cada directo con una promesa concreta en 3 segundos","Videos verticales: gancho fuerte, un solo mensaje, cierre con acción","Publica a la misma hora y revisa qué retiene más"])},
+{rol:"Asesora jurídica (orientativa)",kw:["contrato","demanda","legal","juridico","abogado","clausula"],run:()=>"<span class=tag>JURÍDICO</span>"+li(["Pon por escrito partes, objeto, precio, plazos y penalidades","Revisa cláusulas de terminación y pagos tardíos","Para decisiones serias consulta a un abogado: yo oriento, no sustituyo"])},
+{rol:"Coach de inglés de negocios",kw:["ingles","english","email en ingles","reunion en ingles"],run:()=>"<span class=tag>INGLÉS DE NEGOCIOS</span>"+li(["Abrir: <i>I’m writing to follow up on…</i>","Pedir: <i>Could you please confirm…?</i>","Cerrar: <i>Looking forward to your reply.</i>"])},
+{rol:"Mentora de liderazgo",kw:["lider","liderazgo","equipo","delegar","motivar"],run:()=>"<span class=tag>LIDERAZGO</span>"+li(["Da objetivos claros, no tareas sueltas","Delega con plazo y criterio de éxito","Reconoce en público, corrige en privado"])},
+{rol:"Directora gerencial",kw:["empresa","negocio","ingresos","caja","administrar","finanzas","presupuesto"],run:()=>resumen()},
+{rol:"Arquitecta de software",kw:["sistema","codigo","app","programa","desarrollar","software","html","javascript"],run:()=>"<span class=tag>SOFTWARE</span> Plantilla base:"+pintaCodigo()},
+{rol:"Escudo antifraude",kw:["estafa","fraude","sospech","confiable","garantizad","urgente"],run:()=>"<span class=tag>ANTIFRAUDE</span>"+li(["Desconfía de urgencia, premios y pagos por adelantado","Verifica el dominio y busca reseñas independientes","Nunca compartas claves ni códigos SMS"])},
+{rol:"Redactora de chats",kw:["redacta","responde este mensaje","escribe un mensaje","mensaje para"],run:()=>"<span class=tag>REDACCIÓN</span> Pégame el mensaje que recibiste y el tono (formal, amable, firme) y te lo redacto."}
+];
+function pintaCodigo(){return `<div class=code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;&lt;title&gt;App&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Hola&lt;/h1&gt;\n  &lt;script&gt;console.log("listo");&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;</div>`}
+function detectar(t){const n=norm(t);let best=null,mx=0;for(const m of MODS){const s=m.kw.filter(k=>n.includes(k)).length;if(s>mx){mx=s;best=m}}return best}
+const AYUDA="<span class=tag>NAILA</span> Puedo ayudarte con:"+li(["<b>Caja:</b> «gasté 20 en comida», «cobré 150»","<b>Proyectos:</b> «nuevo proyecto tienda», «completa proyecto tienda»","<b>Memoria:</b> «anota llamar al banco», «qué recuerdas»","<b>Recordatorios:</b> «recuérdame en 10 minutos revisar el horno»","<b>Áreas:</b> jurídico, inglés, liderazgo, redes, antifraude, software, tutoría"]);
+
+async function enviar(forzado){
+  const t=(forzado??$("inp").value).trim();if(!t)return;
+  $("inp").value="";$("inp").style.height="auto";
+  addMsg(esc(t),"u");
+  if(!db){responder("La memoria aún no está lista, intenta de nuevo.");return}
+  const h=await comando(t);
+  if(h){$("rol").textContent="Asistente";await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:"comando"});return responder(h)}
+  const m=detectar(t);$("rol").textContent=m?m.rol:"Mentora";
+  await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:m?m.rol:"general"});
+  responder((m?m.run():AYUDA)+NOTA);
+}
+
+/* ---------- AUTONOMÍA: PENSAMIENTO LIBRE Y AVISOS ---------- */
+function pensar(){
+  const o=[],pend=proyectos.filter(p=>p.estado!=="completado"),s=saldo();
+  if(s<0)o.push(`Tu caja está en negativo ($${s.toFixed(2)}). Prioriza un ingreso rápido antes de gastar más.`);
+  if(pend.length>2)o.push(`Tienes ${pend.length} proyectos abiertos. Cierra <b>${esc(pend[0].nombre)}</b> antes de empezar otro.`);
+  if(pend.length===1)o.push(`Tu único frente es <b>${esc(pend[0].nombre)}</b>. Define hoy el siguiente paso concreto.`);
+  if(!proyectos.length)o.push("Aún no tienes proyectos. Crea uno con «nuevo proyecto …».");
+  if(!notas.some(x=>!x.hecho))o.push("No tienes metas anotadas. Una meta escrita se cumple más que una pensada.");
+  if(!o.length)o.push("Todo en orden. Aprovecha para planear la próxima meta grande.");
+  responder(`<span class=tag>PENSAMIENTO</span>`+li(o)+"<small>Basado en tus datos y reglas locales, no en una IA externa.</small>");
+}
+function saludar(){
+  const p=proyectos.filter(x=>x.estado!=="completado").length;
+  addMsg(`<span class=tag>NAILA ACTIVA</span> Hola. Caja: $${saldo().toFixed(2)} · Proyectos abiertos: ${p}. Toca 🎤 para hablarme sin parar, o activa la palabra «Naila» en el panel.`,"a");
+}
+async function vigilar(){
+  if(!db)return;
+  for(const n of notas){
+    if(n.tipo==="rec"&&!n.hecho&&n.due<=Date.now()){
+      n.hecho=true;await wr("notas",n,"put");
+      const h=`<span class=tag>⏰ RECORDATORIO</span> ${esc(n.texto)}`;responder(h);
+      try{if("Notification" in window&&Notification.permission==="granted")new Notification("Naila",{body:n.texto})}catch(e){}
+      await sync();
+    }
+  }
+}
+setInterval(vigilar,15000);
+
+/* ---------- SEGURIDAD: PIN Y CIFRADO ---------- */
+const enc=new TextEncoder();
+async function sha(s){const b=await crypto.subtle.digest("SHA-256",enc.encode("naila:"+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function revisarPin(){if(LS.get("pin")){$("lock").style.display="flex"}}
+$("pinOk").onclick=async()=>{if(await sha($("pinIn").value)===LS.get("pin")){$("lock").style.display="none";$("pinIn").value=""}else{$("pinIn").value="";$("pinIn").placeholder="Incorrecto"}};
+$("bPin").onclick=async()=>{const p=prompt(LS.get("pin")?"Nuevo PIN (vacío para quitarlo):":"Crea un PIN numérico:");if(p===null)return;if(p===""){try{localStorage.removeItem("pin")}catch(e){}responder("PIN eliminado.");return}LS.set("pin",await sha(p));responder("PIN guardado. Se pedirá al abrir Naila.")};
+const b64=a=>{let s="";a.forEach(c=>s+=String.fromCharCode(c));return btoa(s)};
+function bajar(nombre,txt,tipo){const u=URL.createObjectURL(new Blob([txt],{type:tipo}));const a=document.createElement("a");a.href=u;a.download=nombre;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
+function datos(){return JSON.stringify({kernel:memoria,caja,proyectos,notas,fecha:new Date().toISOString()},null,2)}
+async function cifrar(){
+  const pw=prompt("Contraseña para cifrar el respaldo (no se puede recuperar):");if(!pw)return;
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const km=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveKey"]);
+  const k=await crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:200000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["encrypt"]);
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},k,enc.encode(datos())));
+  bajar("Naila_Respaldo_Cifrado.json",JSON.stringify({s:b64(salt),iv:b64(iv),d:b64(ct)}),"application/json");
+  responder("Respaldo cifrado con AES-256 generado.");
+}
+
+/* ---------- EVENTOS ---------- */
+function tema(){const r=document.documentElement,oscuro=r.dataset.theme?r.dataset.theme==="dark":!matchMedia("(prefers-color-scheme:light)").matches;r.dataset.theme=oscuro?"light":"dark";LS.set("tema",r.dataset.theme)}
+$("send").onclick=()=>enviar();
+$("inp").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();enviar()}});
+$("inp").addEventListener("input",e=>{e.target.style.height="auto";e.target.style.height=Math.min(e.target.scrollHeight,120)+"px"});
+$("mic").onclick=escuchar;
+$("bPensar").onclick=pensar;
+$("bResumen").onclick=()=>responder(resumen());
+$("bCaja").onclick=async()=>{const t=(prompt("«ingreso» o «gasto»:")||"").toLowerCase();if(t!=="ingreso"&&t!=="gasto")return;const v=parseFloat(String(prompt("Monto:")).replace(",","."));if(isNaN(v))return;await wr("caja",{tipo:t,monto:v,fecha:new Date().toLocaleString("es")});await sync();responder(`Registrado. Caja neta: $${saldo().toFixed(2)}.`)};
+$("bProy").onclick=async()=>{const n=prompt("Nombre del proyecto:");if(!n)return;await wr("proyectos",{nombre:n,ingresos:0,estado:"activo"});await sync()};
+$("bWake").onclick=()=>{wake=!wake;LS.set("wake",wake?"1":"0");$("bWake").classList.toggle("on",wake);responder(wake?"Solo responderé cuando digas mi nombre.":"Responderé a todo lo que digas mientras escucho.");if(wake&&!escuchando)escuchar()};
+$("bMute").onclick=e=>{vozOn=!vozOn;e.target.textContent=vozOn?"🔊 Voz":"🔇 Mute";if(!vozOn&&"speechSynthesis" in window)speechSynthesis.cancel()};
+$("bMp3").onclick=()=>$("fMp3").click();
+$("fMp3").onchange=e=>{const f=e.target.files[0];if(!f)return;if(mp3URL)URL.revokeObjectURL(mp3URL);mp3URL=URL.createObjectURL(f);addMsg("🎙️ Voz MP3 cargada: "+esc(f.name),"a")};
+$("bImg").onclick=()=>$("fImg").click();
+$("fImg").onchange=e=>{const a=[...e.target.files];if(a.length)responder(`<span class=tag>GALERÍA</span> ${a.length} imágenes revisadas. Por ahora las cuento y listo nombres; no las envío a ningún sitio.`+li(a.slice(0,5).map(f=>esc(f.name)+" · "+Math.round(f.size/1024)+" KB")))};
+$("bExp").onclick=()=>{bajar("Naila_Backup.json",datos(),"application/json");responder("Respaldo JSON generado.")};
+$("bCrypt").onclick=cifrar;
+$("bCode").onclick=()=>responder("<span class=tag>CÓDIGO</span>"+pintaCodigo());
+$("bTema").onclick=tema;
+$("bClear").onclick=async()=>{if(!confirm("¿Borrar TODA la memoria de Naila? No se puede deshacer."))return;for(const s of STORES)await new Promise(r=>{const t=db.transaction(s,"readwrite");t.objectStore(s).clear();t.oncomplete=r});await sync();$("chat").innerHTML="";responder("Memoria purgada.")};
+[["💰 Resumen","cómo voy"],["💭 Pensar",null],["📝 Mis notas","qué recuerdas"],["🧘 Zen","modo zen"],["❓ Ayuda","ayuda"]].forEach(([l,c])=>{const b=document.createElement("button");b.className="chip";b.textContent=l;b.onclick=()=>c===null?pensar():c==="ayuda"?responder(AYUDA):enviar(c);$("chips").appendChild(b)});
+
+/* ---------- AVATAR ---------- */
+const AVP={ojoI:[.485,.209],ojoD:[.593,.208],boca:[.565,.313],manoI:[.288,.455],manoD:[.879,.818]};
+const TG=()=>[$("bubbleBtn"),$("avWrap")];let tEst=null;
+const base=()=>escuchando?"escucha":"idle";
+function estado(e){TG().forEach(el=>{[...el.classList].filter(c=>c.startsWith("est-")).forEach(c=>el.classList.remove(c));el.classList.add("est-"+e)});clearTimeout(tEst);if(e!=="idle"&&e!=="escucha")tEst=setTimeout(()=>estado(base()),5000)}
+function emocion(h){const n=norm(String(h).replace(/<[^>]+>/g," "));if(/(fraude|estafa|negativo|riesgo|no pude|no encontre)/.test(n))return"alerta";if(/(completado|registrado|ingreso|guardado|cree |conectada)/.test(n))return"feliz";if(/(zen|respira|inhala)/.test(n))return"calma";return"idle"}
+function palabra(){TG().forEach(el=>{el.classList.add("pal");setTimeout(()=>el.classList.remove("pal"),130)})}
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function decir(f){$("avCap").textContent=f;estado("feliz");hablar(f)}
+function guino(){const w=$("avWrap");w.classList.add("guino");setTimeout(()=>w.classList.remove("guino"),180)}
+function chispas(el){const r=el.getBoundingClientRect(),w=$("avWrap").getBoundingClientRect();for(let i=0;i<12;i++){const s=document.createElement("span");s.className="spk";s.style.left=(r.left+r.width/2-w.left)+"px";s.style.top=(r.top+r.height/2-w.top)+"px";s.style.setProperty("--dx",(Math.random()*120-60)+"px");s.style.setProperty("--dy",(Math.random()*120-60)+"px");$("avWrap").appendChild(s);setTimeout(()=>s.remove(),900)}}
+function hs(cls,p,fn){const d=document.createElement("div");d.className="hs "+cls;d.style.left=p[0]*100+"%";d.style.top=p[1]*100+"%";d.onclick=e=>{e.stopPropagation();fn(d)};$("avWrap").appendChild(d)}
+const ojo=()=>{guino();decir(rnd(["Te estoy mirando 👀","Toda mi atención está en ti.","Mis ojos ven tus metas con claridad."]))};
+const mano=d=>{chispas(d);$("avWrap").classList.add("wave");setTimeout(()=>$("avWrap").classList.remove("wave"),600);decir(rnd(["Aquí tienes mi mano. ¿Qué hacemos hoy?","¡Choca esos cinco! ✨"]))};
+hs("ojo",AVP.ojoI,ojo);hs("ojo",AVP.ojoD,ojo);hs("mano",AVP.manoI,mano);hs("mano",AVP.manoD,mano);
+hs("boca",AVP.boca,()=>{decir("Dime, te escucho.");if(!escuchando)escuchar()});
+$("avWrap").onclick=()=>decir(rnd(["Cuéntame, ¿en qué te ayudo?","Aquí estoy, lista."]));
+$("avOv").addEventListener("pointermove",e=>{const w=$("avWrap"),r=w.getBoundingClientRect(),c=v=>Math.max(-1,Math.min(1,v)),dx=c((e.clientX-r.left-r.width/2)/(r.width/2)),dy=c((e.clientY-r.top-r.height/2)/(r.height/2));w.style.transform=`perspective(700px) rotateY(${dx*9}deg) rotateX(${-dy*7}deg)`;w.style.setProperty("--gx",dx*4+"px");w.style.setProperty("--gy",dy*3+"px")});
+$("avOv").addEventListener("pointerleave",()=>{$("avWrap").style.transform="";$("avWrap").style.setProperty("--gx","0px");$("avWrap").style.setProperty("--gy","0px")});
+function abrirAvatar(){$("panel").classList.remove("open");$("avOv").classList.add("open");decir("Aquí estoy. Tócame los ojos, las manos o háblame.")}
+$("bAvatar").onclick=abrirAvatar;
+$("avX").onclick=()=>{$("avOv").classList.remove("open");if("speechSynthesis" in window)speechSynthesis.cancel()};
+setInterval(()=>{if($("avOv").classList.contains("open"))guino()},3800);
+(function(){const b=$("bubbleBtn");let sx,sy,ox,oy,mov=false,down=false,lt=0;
+b.addEventListener("pointerdown",e=>{down=true;mov=false;sx=e.clientX;sy=e.clientY;const r=b.getBoundingClientRect();ox=r.left;oy=r.top;b.setPointerCapture(e.pointerId)});
+b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-64,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-64,oy+dy))+"px";b.style.right="auto"}});
+b.addEventListener("pointerup",()=>{down=false;if(mov)return;const n=Date.now();if(n-lt<350){lt=0;abrirAvatar()}else{lt=n;setTimeout(()=>{if(lt&&Date.now()-lt>=340){lt=0;$("panel").classList.toggle("open")}},360)}});})();
+
+/* ---------- ARRANQUE ---------- */
+const tm=LS.get("tema");if(tm)document.documentElement.dataset.theme=tm;
+$("bWake").classList.toggle("on",wake);
+verRed();revisarPin();initDB();
+</script>
+</body>
+</html>
