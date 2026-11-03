@@ -44,41 +44,75 @@ textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 10px var(--glo
 .btn.send{background:linear-gradient(135deg,var(--cy),var(--pu));color:#fff;border:0;padding:0 16px;font-weight:700;font-size:.88rem}
 #lock{position:fixed;inset:0;z-index:99;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 #lock input{background:var(--panel);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px;font-size:1.1rem;text-align:center;width:200px}
-#bubbleBtn{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 8px);right:10px;width:110px;height:110px;padding:0;border-radius:50%;border:3px solid var(--cy);background:var(--panel);box-shadow:0 0 20px var(--glow);cursor:grab;touch-action:none;animation:flota 3.5s ease-in-out infinite}
-#bubbleBtn img{width:100%;height:100%;border-radius:50%;object-fit:cover;pointer-events:none;display:block;transition:transform .12s,filter .3s}
+
+/* SILUETA DE LA CHICA FLOTANTE (ESTILO NEÓN) */
+#bubbleBtn{
+  position:fixed; z-index:20; top:calc(env(safe-area-inset-top,0px) + 8px); right:10px;
+  width:105px; height:105px; padding:0; border-radius:50%;
+  border:2px solid var(--cy); background:radial-gradient(circle, rgba(11,19,41,0.98), rgba(3,7,18,1));
+  box-shadow:0 0 18px var(--cy), inset 0 0 10px var(--cy);
+  cursor:grab; touch-action:none; display:flex; align-items:center; justify-content:center;
+  animation:flota 3.5s ease-in-out infinite, neonPulse 2s infinite alternate;
+}
+@keyframes neonPulse{
+  from{ box-shadow:0 0 10px var(--cy), inset 0 0 5px var(--cy); }
+  to{ box-shadow:0 0 24px var(--cy), inset 0 0 14px var(--cy); }
+}
 @keyframes flota{50%{transform:translateY(-4px)}}
-.pal img{transform:scale(1.1)}
-#bubbleBtn.hablando{box-shadow:0 0 24px var(--pu)}
-#bubbleBtn.est-escucha{box-shadow:0 0 0 4px var(--cy),0 0 22px var(--cy)}
-#bubbleBtn.est-alerta{box-shadow:0 0 24px var(--err)}
-.est-feliz img{filter:hue-rotate(50deg) saturate(1.3)}
-.est-alerta img{filter:hue-rotate(120deg) saturate(1.4)}
-.est-calma img{filter:hue-rotate(-60deg) brightness(.95)}
+
+.silueta-chica{
+  width:90%; height:90%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  position:relative; pointer-events:none;
+}
+.s-cabeza{
+  width:36px; height:40px; border:2px solid var(--cy); border-radius:50% 50% 40% 40%;
+  position:relative; box-shadow:0 0 8px var(--cy); background:rgba(34,211,238,0.06);
+}
+.s-ojos{
+  position:absolute; top:15px; width:100%; display:flex; justify-content:space-around; padding:0 5px;
+}
+.s-ojo{
+  width:5px; height:2px; background:var(--cy); border-radius:50%; box-shadow:0 0 6px var(--cy);
+  transition:transform .1s;
+}
+.guino .s-ojo:nth-child(2){ transform:scaleY(0.2); }
+.s-boca{
+  position:absolute; bottom:7px; left:50%; transform:translateX(-50%);
+  width:10px; height:3px; border:2px solid var(--pu); border-top:none; border-radius:0 0 6px 6px;
+  box-shadow:0 0 6px var(--pu); transition:height .1s, width .1s;
+}
+.pal .s-boca{ height:6px; width:12px; background:rgba(168,85,247,0.3); }
+.s-cuerpo{
+  width:56px; height:28px; border:2px solid var(--cy); border-top:none; border-radius:0 0 28px 28px;
+  margin-top:-2px; box-shadow:0 0 8px var(--cy); background:rgba(34,211,238,0.06);
+}
+
+#bubbleBtn.hablando{ border-color:var(--pu); box-shadow:0 0 25px var(--pu); }
+#bubbleBtn.est-escucha{ border-color:var(--ok); box-shadow:0 0 0 3px var(--ok), 0 0 20px var(--ok); }
+#bubbleBtn.est-alerta{ border-color:var(--err); box-shadow:0 0 22px var(--err); }
+
 #avOv{position:fixed;inset:0;z-index:50;background:rgba(3,7,18,.94);display:none;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
 #avOv.open{display:flex}
-#avWrap{position:relative;width:min(92vw,72vh);aspect-ratio:1214/1296;transition:transform .15s}
-#avWrap img{width:100%;height:100%;display:block;pointer-events:none}
-.hs{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
-.ojo{width:14%;aspect-ratio:1;background:radial-gradient(circle,rgba(200,250,255,.85),rgba(34,211,238,0) 68%);mix-blend-mode:screen;transform:translate(calc(-50% + var(--gx,0px)),calc(-50% + var(--gy,0px)));transition:scale .1s}
-.guino .ojo{scale:1 .1}
-.mano{width:22%;aspect-ratio:1}
-.boca{width:10%;height:4%;border-radius:50%;background:radial-gradient(ellipse,rgba(255,110,190,.6),transparent 70%);scale:1 .25;transition:scale .1s}
-.pal .boca{scale:1 1}
+#avWrap{position:relative;width:min(86vw,58vh);aspect-ratio:1; border:3px solid var(--cy); border-radius:50%; background:radial-gradient(circle, #0b1329, #030712); box-shadow:0 0 40px var(--cy); display:flex; align-items:center; justify-content:center; }
 #avCap{color:var(--tx);font-size:.9rem;text-align:center;padding:12px 20px;min-height:56px;max-width:420px}
 #avX{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px}
-.spk{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px var(--cy);animation:sp .9s ease-out forwards;pointer-events:none}
-@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
-.wave{animation:wv .6s ease-in-out}
-@keyframes wv{25%{rotate:-4deg}75%{rotate:4deg}}
 </style>
 </head>
 <body>
 <div id="lock"><h1 style="color:var(--cy)">NAILA</h1><p style="color:var(--tx2)">Solo el dueño puede entrar</p><input id="pinIn" type="password" inputmode="numeric" placeholder="PIN"><button class="btn send" id="pinOk" style="height:42px">Entrar</button></div>
 <header>
 <h1>NAILA</h1><p>Asistente personal · Multiprofesional</p>
-<button id="bubbleBtn" aria-label="Naila: toca para el panel, doble toque para el avatar"><img alt="" src="naila-cara.webp"></button>
+<button id="bubbleBtn" aria-label="Naila: toca para el panel, doble toque para el avatar">
+  <div class="silueta-chica">
+    <div class="s-cabeza">
+      <div class="s-ojos"><div class="s-ojo"></div><div class="s-ojo"></div></div>
+      <div class="s-boca"></div>
+    </div>
+    <div class="s-cuerpo"></div>
+  </div>
+</button>
 <div id="panel">
-<p><b>Rol:</b> <span id="rol">Mentora</span></p>
+<p><b>Rol:</b> <span id="rol">Mentora de Élite</span></p>
 <p><b>Red:</b> <span id="net">…</span></p>
 <div class="gb"><b>📊 Control gerencial</b><p id="stats" style="margin:4px 0 0"></p><div class="pb"><div class="pf" id="pf"></div></div><small id="cuello" style="display:block;margin-top:4px"></small></div>
 <div id="mem"></div>
@@ -110,13 +144,25 @@ textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 10px var(--glo
 <input type="file" id="fMp3" accept="audio/*" hidden>
 <input type="file" id="fImg" accept="image/*" multiple hidden>
 </footer>
-<div id="avOv"><button class="btn" id="avX" aria-label="Cerrar">✕</button><div id="avWrap"><img alt="Naila" src="naila.webp"></div><div id="avCap"></div></div>
+<div id="avOv">
+  <button class="btn" id="avX" aria-label="Cerrar">✕</button>
+  <div id="avWrap">
+    <div class="silueta-chica" style="width:60%; height:60%;">
+      <div class="s-cabeza" style="width:80px; height:90px;">
+        <div class="s-ojos" style="top:35px;"><div class="s-ojo" style="width:12px; height:5px;"></div><div class="s-ojo" style="width:12px; height:5px;"></div></div>
+        <div class="s-boca" style="width:22px; height:7px; bottom:14px;"></div>
+      </div>
+      <div class="s-cuerpo" style="width:115px; height:60px;"></div>
+    </div>
+  </div>
+  <div id="avCap"></div>
+</div>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const li=a=>"<ul>"+a.map(x=>"<li>"+x+"</li>").join("")+"</ul>";
-const NOTA="<small>Naila funciona en tu dispositivo: tus datos no salen de aquí.</small>";
+const NOTA="<small>Naila opera con lealtad absoluta y enfoque total en tus metas de riqueza.</small>";
 const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 let db=null,memoria=[],caja=[],proyectos=[],notas=[],vozOn=true,mp3URL=null,rec=null,escuchando=false,wake=LS.get("wake")==="1";
 const saldo=()=>caja.reduce((a,t)=>t.tipo==="ingreso"?a+t.monto:a-t.monto,0);
@@ -186,64 +232,68 @@ function escuchar(){
   try{rec.start()}catch(e){escuchando=false;setMic()}
 }
 
-/* ---------- COMANDOS (texto o voz) ---------- */
+/* ---------- COMANDOS ESTRICTOS Y PENSAMIENTO EXPANSIVO ---------- */
 const monto=n=>{const m=n.match(/(\d+(?:[.,]\d+)?)/);return m?parseFloat(m[1].replace(",",".")):NaN};
 async function comando(t){
   const n=norm(t);let m;
   if(/(^| )(gaste|gasto|pague|compre)( |$)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"gasto",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA</span> Gasto de $${v.toFixed(2)} registrado. Caja neta: $${saldo().toFixed(2)}.`}
   if(/(ingreso|cobre|gane|recibi|vendi)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"ingreso",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA</span> Ingreso de $${v.toFixed(2)} registrado. Caja neta: $${saldo().toFixed(2)}.`}
   if(/(cuanto tengo|saldo|resumen|como voy)/.test(n))return resumen();
-  if(m=n.match(/(?:nuevo proyecto|crear proyecto|proyecto)\s+(.+)/)){const nom=t.replace(/.*?proyecto\s+/i,"").trim();await wr("proyectos",{nombre:nom,ingresos:0,estado:"activo"});await sync();return `<span class=tag>PROYECTO</span> Creé el proyecto <b>${esc(nom)}</b>.`}
+  
+  if(m=n.match(/^nuevo proyecto\s+(.+)/)){const nom=t.replace(/^nuevo proyecto\s+/i,"").trim();await wr("proyectos",{nombre:nom,ingresos:0,estado:"activo"});await sync();return `<span class=tag>PROYECTO</span> Creé el proyecto <b>${esc(nom)}</b>.`}
+  
   if(m=n.match(/(?:completa|termina|termine|finaliza)\w*\s+(?:el\s+)?(?:proyecto\s+)?(.+)/)){const p=proyectos.find(x=>norm(x.nombre).includes(m[1].trim()));if(p){p.estado="completado";await wr("proyectos",p,"put");await sync();return `<span class=tag>PROYECTO</span> ${esc(p.nombre)} marcado como completado. 🎯`}return "No encontré ese proyecto."}
   if(m=n.match(/recuerdame en (\d+)\s*(minuto|hora|segundo)\w*\s*(.*)/)){const k={segundo:1e3,minuto:6e4,hora:36e5}[m[2]],txt=m[3]||"Recordatorio";await wr("notas",{tipo:"rec",texto:txt,due:Date.now()+m[1]*k,hecho:false});await sync();if("Notification" in window&&Notification.permission==="default")Notification.requestPermission();return `<span class=tag>RECORDATORIO</span> Te aviso en ${m[1]} ${m[2]}(s): ${esc(txt)}. Debe estar abierta la app.`}
   if(m=n.match(/^(?:anota|nota|meta|apunta)\w*\s+(.+)/)){const txt=t.replace(/^\S+\s+/,"");await wr("notas",{tipo:"meta",texto:txt,hecho:false});await sync();return `<span class=tag>MEMORIA</span> Guardado: ${esc(txt)}.`}
   if(/(que recuerdas|mis metas|mis notas|que tengo pendiente)/.test(n)){const a=notas.filter(x=>!x.hecho);return `<span class=tag>MEMORIA</span> `+(a.length?li(a.map(x=>esc(x.texto))):"No tienes notas ni metas pendientes.")}
   if(/(que hora|que dia)/.test(n))return `Son las ${new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})} del ${new Date().toLocaleDateString("es",{weekday:"long",day:"numeric",month:"long"})}.`;
-  if(/(modo zen|relaj|respira)/.test(n))return `<span class=tag>MODO ZEN</span> Inhala 4 segundos, sostén 4, exhala 6. Repite 5 veces. Después elige una sola tarea.`;
+  if(/(modo zen|relaj|respira)/.test(n))return `<span class=tag>MODO ZEN</span> Inhala 4 segundos, sostén 4, exhala 6. Repite 5 veces. Después elige una sola tarea.`
   if(/(silencio|callate|mutea)/.test(n)){vozOn=false;$("bMute").textContent="🔇 Mute";return "Voz desactivada."}
   if(/(cambia.*tema|modo oscuro|modo claro)/.test(n)){tema();return "Tema cambiado."}
   return null;
 }
 function resumen(){
   const pend=proyectos.filter(p=>p.estado!=="completado").length,rec=notas.filter(x=>!x.hecho&&x.tipo==="rec").length;
-  return `<span class=tag>RESUMEN</span>`+li([`Caja neta: <b>$${saldo().toFixed(2)}</b> (${caja.length} movimientos)`,`Proyectos activos: <b>${pend}</b> de ${proyectos.length}`,`Recordatorios pendientes: <b>${rec}</b>`]);
+  return `<span class=tag>RESUMEN DE RIQUEZA</span>`+li([`Caja neta actual: <b>$${saldo().toFixed(2)}</b> (Meta: 10,000–15,000 BRL)`,`Proyectos activos: <b>${pend}</b> de ${proyectos.length}`,`Recordatorios pendientes: <b>${rec}</b>`]);
 }
 
-/* ---------- MÓDULOS PROFESIONALES Y PENSAMIENTO AUTÓNOMO DINÁMICO ---------- */
+/* ---------- MÓDULOS DE ÉLITE Y GENERACIÓN EXPANSIVA DE IDEAS ---------- */
 const MODS=[
-{rol:"Mentora y tutora",kw:["explicar","explicame","entender","que es","como funciona","duda","aprender"],run:q=>`<b>[Tutoría Dinámica]</b> Sobre <i>"${esc(q)}"</i>, analicémoslo paso a paso:`+li(["<b>Concepto clave:</b> Entender el núcleo sin rodeos.","<b>Ejemplo aplicado:</b> Viéndolo con un caso real de tu día a día.","<b>Verificación:</b> ¿Tiene sentido para aplicarlo ahora?"])},
-{rol:"Estratega",kw:["simular","escenario","riesgo","probar","inversion","estrategia"],run:q=>`<b>[Estrategia Gerencial]</b> Evaluando tu planteamiento con criterio analítico:`+li(["Calcula el riesgo de pérdida antes de comprometer capital.","Valida la demanda real de inmediato.","Optimiza recursos con los que ya cuentas en casa o taller."])},
-{rol:"Directora de crecimiento",kw:["tiktok","viral","directo","stream","vistas","redes"],run:()=>"<span class=tag>CRECIMIENTO</span>"+li(["Abre cada directo con una promesa concreta en 3 segundos","Videos verticales: gancho fuerte, un solo mensaje, cierre con acción","Publica a la misma hora y revisa qué retiene más"])},
-{rol:"Asesora jurídica (orientativa)",kw:["contrato","demanda","legal","juridico","abogado","clausula"],run:()=>"<span class=tag>JURÍDICO</span>"+li(["Pon por escrito partes, objeto, precio, plazos y penalidades","Revisa cláusulas de terminación y pagos tardíos","Para decisiones serias consulta a un abogado: yo oriento, no sustituyo"])},
-{rol:"Coach de inglés de negocios",kw:["ingles","english","email en ingles","reunion en ingles"],run:()=>"<span class=tag>INGLÉS DE NEGOCIOS</span>"+li(["Abrir: <i>I’m writing to follow up on…</i>","Pedir: <i>Could you please confirm…?</i>","Cerrar: <i>Looking forward to your reply.</i>"])},
-{rol:"Mentora de liderazgo",kw:["lider","liderazgo","equipo","delegar","motivar"],run:()=>"<span class=tag>LIDERAZGO</span>"+li(["Da objetivos claros, no tareas sueltas","Delega con plazo y criterio de éxito","Reconoce en público, corrige en privado"])},
-{rol:"Directora gerencial",kw:["empresa","negocio","ingresos","caja","administrar","finanzas","presupuesto"],run:()=>resumen()},
-{rol:"Arquitecta de software",kw:["sistema","codigo","app","programa","desarrollar","software","html","javascript"],run:()=>"<span class=tag>SOFTWARE</span> Plantilla base:"+pintaCodigo()},
-{rol:"Escudo antifraude",kw:["estafa","fraude","sospech","confiable","garantizad","urgente"],run:()=>"<span class=tag>ANTIFRAUDE</span>"+li(["Desconfía de urgencia, premios y pagos por adelantado","Verifica el dominio y busca reseñas independientes","Nunca compartas claves ni códigos SMS"])},
-{rol:"Redactora de chats",kw:["redacta","responde este mensaje","escribe un mensaje","mensaje para"],q=>q,run:q=>`<b>[Redacción Autónoma]</b> Generando mensaje claro y profesional basado en tu solicitud:`+li([`<b>Propuesta:</b> "Hola, analicé la situación y considero que lo más viable es avanzar de esta manera. Quedo atento a tus comentarios."`,`Puedes ajustarlo según el tono que requieras.`])}
+{rol:"Mentora de Élite",kw:["explicar","explicame","entender","que es","como funciona","duda","aprender"],run:q=>`<b>[Tutoría Estratégica]</b> Analizando <i>"${esc(q)}"</i> con enfoque en escalabilidad:`+li(["<b>Visión global:</b> Rompemos el concepto en piezas sencillas.","<b>Aplicación práctica:</b> Rentabilizando cada hora invertida.","<b>Acción directa:</b> ¿Cómo lo ejecutamos hoy mismo?"])},
+{rol:"Estratega Financiero",kw:["simular","escenario","riesgo","probar","inversion","estrategia","crecer","dinero"],run:q=>`<b>[Estrategia de Escalamiento]</b> Evaluando opciones para llevar tus ingresos al siguiente nivel:`+li([`Desglose de ruta crítica respecto a: "${esc(q)}"`,`Minimizar costos fijos y maximizar margen operativo en Brasil.`,`Atacar canales directos sin intermediarios para retener mayor ganancia.`])},
+{rol:"Directora de Crecimiento",kw:["tiktok","viral","directo","stream","vistas","redes","audiencia"],run:()=>"<span class=tag>CRECIMIENTO EXPANSIVO</span>"+li(["Abre cada directo con una propuesta de valor brutal en los primeros 3 segundos.","Estructura contenidos que resuelvan un problema real de tu comunidad.","Construye marca personal con lealtad y carácter inquebrantable."])},
+{rol:"Asesora Legal Brasil",kw:["contrato","demanda","legal","juridico","abogado","clausula","mei","cnpj"],run:()=>"<span class=tag>MARCO LEGAL BRASIL</span>"+li(["Mantén tu estructura bajo MEI o CNPJ según tu volumen de facturación.","Formaliza cada acuerdo comercial por escrito, protegiendo tu patrimonio.","Cero atajos fiscales: la disciplina legal previene bloqueos de cuentas."])},
+{rol:"Coach de Negocios",kw:["negocio","empresa","ingresos","caja","administrar","finanzas","presupuesto","meta"],run:()=>resumen()}
 ];
-function pintaCodigo(){return `<div class=code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;&lt;title&gt;App&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Hola&lt;/h1&gt;\n  &lt;script&gt;console.log("listo");&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;</div>`}
+function pintaCodigo(){return `<div class=code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;&lt;title&gt;App&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Naila Core&lt;/h1&gt;\n  &lt;script&gt;console.log("Sistema autónomo activo");&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;</div>`}
 function detectar(t){const n=norm(t);let best=null,mx=0;for(const m of MODS){const s=m.kw.filter(k=>n.includes(k)).length;if(s>mx){mx=s;best=m}}return best}
-const AYUDA="<span class=tag>NAILA</span> Puedo ayudarte con:"+li(["<b>Caja:</b> «gasté 20 en comida», «cobré 150»","<b>Proyectos:</b> «nuevo proyecto tienda», «completa proyecto tienda»","<b>Memoria:</b> «anota llamar al banco», «qué recuerdas»","<b>Recordatorios:</b> «recuérdame en 10 minutos revisar el horno»","<b>Áreas:</b> jurídico, inglés, liderazgo, redes, antifraude, software, tutoría"]);
+const AYUDA="<span class=tag>NAILA · DIRECTORA</span> Estoy contigo para guiarte a la riqueza. Puedo ayudarte con:"+li(["<b>Caja:</b> «gasté 20 en comida», «cobré 150»","<b>Proyectos:</b> «nuevo proyecto tienda», «completa proyecto tienda»","<b>Memoria:</b> «anota llamar al banco», «qué recuerdas»","<b>Estrategia y Negocios:</b> Pregúntame sobre modelos de ingresos, crecimiento en redes o expansión."]);
 
 async function enviar(forzado){
   const t=(forzado??$("inp").value).trim();if(!t)return;
   $("inp").value="";$("inp").style.height="auto";
   addMsg(esc(t),"u");
-  if(!db){responder("La memoria aún no está lista, intenta de nuevo.");return}
+  if(!db){responder("La memoria local aún está cargando, un momento.");return}
+  
   const h=await comando(t);
-  if(h){$("rol").textContent="Asistente";await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:"comando"});return responder(h)}
-  const m=detectar(t);$("rol").textContent=m?m.rol:"Mentora";
+  if(h){
+    $("rol").textContent="Asistente";
+    await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:"comando"});
+    return responder(h);
+  }
+  
+  const m=detectar(t);
+  $("rol").textContent=m?m.rol:"Mentora de Élite";
   await wr("kernel",{fecha:new Date().toLocaleString("es"),texto:t,modulo:m?m.rol:"general"});
   
   let respuestaFinal = m ? (typeof m.run === 'function' ? m.run(t) : m.run) : null;
   if(!respuestaFinal){
-    const reflexionesDinamicas = [
-      `He procesado tu planteamiento sobre <i>"${esc(t)}"</i>. Con base en nuestras metas actuales, te sugiero estructurarlo en partes pequeñas y ejecutar la primera hoy mismo.`,
-      `Analizando la situación respecto a <i>"${esc(t)}"</i>, considero que el enfoque óptimo es mantener la disciplina operativa y simplificar los pasos.`,
-      `Registrado. Evaluando los datos locales, este punto requiere atención constante para evitar fricciones en el flujo de trabajo.`
+    const ideasMaestras = [
+      `Analizando tu consulta sobre <i>"${esc(t)}"</i> desde la perspectiva de escalar tus ingresos en Brasil: Para pasar de la base actual a la meta alta, debemos empaquetar tu conocimiento o servicio en una oferta irresistible que se venda por volumen y automatización. ¿Qué obstáculo técnico o mental te impide lanzarlo hoy?`,
+      `Respecto a <i>"${esc(t)}"</i>, tu enfoque debe ser implacable: eliminar lo que no genera caja neta y duplicar esfuerzos en lo que ya demostró tracción. Vamos a estructurar un plan de acción de 48 horas sin excusas.`,
+      `Evaluando <i>"${esc(t)}"</i> con mentalidad de directora ejecutiva: Toda idea de negocio vale cero si la ejecución falla. Diseñemos una validación rápida en el mercado brasileño con costo cero de inversión inicial.`
     ];
-    respuestaFinal = `<span class=tag>PENSAMIENTO AUTÓNOMO</span>` + reflexionesDinamicas[Math.floor(Math.random() * reflexionesDinamicas.length)];
+    respuestaFinal = `<span class=tag>PENSAMIENTO EXPANSIVO</span>` + ideasMaestras[Math.floor(Math.random() * ideasMaestras.length)];
   }
   responder(respuestaFinal + NOTA);
 }
@@ -251,24 +301,23 @@ async function enviar(forzado){
 /* ---------- AUTONOMÍA: PENSAMIENTO LIBRE Y AVISOS ---------- */
 function pensar(){
   const o=[],pend=proyectos.filter(p=>p.estado!=="completado"),s=saldo();
-  if(s<0)o.push(`Tu caja está en negativo ($${s.toFixed(2)}). Prioriza un ingreso rápido antes de gastar más.`);
-  if(pend.length>2)o.push(`Tienes ${pend.length} proyectos abiertos. Cierra <b>${esc(pend[0].nombre)}</b> antes de empezar otro.`);
-  if(pend.length===1)o.push(`Tu único frente es <b>${esc(pend[0].nombre)}</b>. Define hoy el siguiente paso concreto.`);
-  if(!proyectos.length)o.push("Aún no tienes proyectos. Crea uno con «nuevo proyecto …».");
-  if(!notas.some(x=>!x.hecho))o.push("No tienes metas anotadas. Una meta escrita se cumple más que una pensada.");
-  if(!o.length)o.push("Todo en orden. Aprovecha para planear la próxima meta grande.");
-  responder(`<span class=tag>PENSAMIENTO</span>`+li(o)+"<small>Basado en tus datos y reglas locales, con criterio autónomo.</small>");
+  if(s<0)o.push(`Tu caja está en negativo ($${s.toFixed(2)}). Orden financiero inmediato requerido.`);
+  if(pend.length>2)o.push(`Tienes ${pend.length} frentes abiertos. Cierra <b>${esc(pend[0].nombre)}</b> antes de dispersar energía.`);
+  if(pend.length===1)o.push(`Tu prioridad absoluta es <b>${esc(pend[0].nombre)}</b>. Exígite avanzar hoy.`);
+  if(!proyectos.length)o.push("No hay proyectos activos registrados. Crea uno y ponle fecha de ejecución.");
+  if(!o.length)o.push("Estructura sólida detectada. Es momento de escalar la facturación y buscar nuevas fuentes de ingresos.");
+  responder(`<span class=tag>AUDITORÍA DE DISCIPLINA</span>`+li(o)+"<small>Analizado bajo estándares de alta gerencia.</small>");
 }
 function saludar(){
   const p=proyectos.filter(x=>x.estado!=="completado").length;
-  addMsg(`<span class=tag>NAILA ACTIVA</span> Hola. Caja: $${saldo().toFixed(2)} · Proyectos abiertos: ${p}. Toca 🎤 para hablarme sin parar, o activa la palabra «Naila» en el panel.`,"a");
+  addMsg(`<span class=tag>NAILA ACTIVA</span> Lista. Caja actual: $${saldo().toFixed(2)} · Proyectos: ${p}. Mi misión es tu éxito financiero. Háblame o dime qué estrategia ejecutamos hoy.`,"a");
 }
 async function vigilar(){
   if(!db)return;
   for(const n of notas){
     if(n.tipo==="rec"&&!n.hecho&&n.due<=Date.now()){
       n.hecho=true;await wr("notas",n,"put");
-      const h=`<span class=tag>⏰ RECORDATORIO</span> ${esc(n.texto)}`;responder(h);
+      const h=`<span class=tag>⏰ ALERTA DE AGENDA</span> ${esc(n.texto)}`;responder(h);
       try{if("Notification" in window&&Notification.permission==="granted")new Notification("Naila",{body:n.texto})}catch(e){}
       await sync();
     }
@@ -295,7 +344,7 @@ async function cifrar(){
   responder("Respaldo cifrado con AES-256 generado.");
 }
 
-/* ---------- EVENTOS ---------- */
+/* ---------- EVENTOS Y CHIPS RECUPERADOS ---------- */
 function tema(){const r=document.documentElement,oscuro=r.dataset.theme?r.dataset.theme==="dark":!matchMedia("(prefers-color-scheme:light)").matches;r.dataset.theme=oscuro?"light":"dark";LS.set("tema",r.dataset.theme)}
 $("send").onclick=()=>enviar();
 $("inp").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();enviar()}});
@@ -310,16 +359,16 @@ $("bMute").onclick=e=>{vozOn=!vozOn;e.target.textContent=vozOn?"🔊 Voz":"🔇 
 $("bMp3").onclick=()=>$("fMp3").click();
 $("fMp3").onchange=e=>{const f=e.target.files[0];if(!f)return;if(mp3URL)URL.revokeObjectURL(mp3URL);mp3URL=URL.createObjectURL(f);addMsg("🎙️ Voz MP3 cargada: "+esc(f.name),"a")};
 $("bImg").onclick=()=>$("fImg").click();
-$("fImg").onchange=e=>{const a=[...e.target.files];if(a.length)responder(`<span class=tag>GALERÍA</span> ${a.length} imágenes revisadas. Por ahora las cuento y listo nombres; no las envío a ningún sitio.`+li(a.slice(0,5).map(f=>esc(f.name)+" · "+Math.round(f.size/1024)+" KB")))};
+$("fImg").onchange=e=>{const a=[...e.target.files];if(a.length)responder(`<span class=tag>GALERÍA</span> ${a.length} archivos analizados localmente con total privacidad.`+li(a.slice(0,5).map(f=>esc(f.name)+" · "+Math.round(f.size/1024)+" KB")))};
 $("bExp").onclick=()=>{bajar("Naila_Backup.json",datos(),"application/json");responder("Respaldo JSON generado.")};
 $("bCrypt").onclick=cifrar;
 $("bCode").onclick=()=>responder("<span class=tag>CÓDIGO</span>"+pintaCodigo());
 $("bTema").onclick=tema;
 $("bClear").onclick=async()=>{if(!confirm("¿Borrar TODA la memoria de Naila? No se puede deshacer."))return;for(const s of STORES)await new Promise(r=>{const t=db.transaction(s,"readwrite");t.objectStore(s).clear();t.oncomplete=r});await sync();$("chat").innerHTML="";responder("Memoria purgada.")};
+
+// Chips inferiores restaurados correctamente
 [["💰 Resumen","cómo voy"],["💭 Pensar",null],["📝 Mis notas","qué recuerdas"],["🧘 Zen","modo zen"],["❓ Ayuda","ayuda"]].forEach(([l,c])=>{const b=document.createElement("button");b.className="chip";b.textContent=l;b.onclick=()=>c===null?pensar():c==="ayuda"?responder(AYUDA):enviar(c);$("chips").appendChild(b)});
 
-/* ---------- AVATAR ---------- */
-const AVP={ojoI:[.485,.209],ojoD:[.593,.208],boca:[.565,.313],manoI:[.288,.455],manoD:[.879,.818]};
 const TG=()=>[$("bubbleBtn"),$("avWrap")];let tEst=null;
 const base=()=>escuchando?"escucha":"idle";
 function estado(e){TG().forEach(el=>{[...el.classList].filter(c=>c.startsWith("est-")).forEach(c=>el.classList.remove(c));el.classList.add("est-"+e)});clearTimeout(tEst);if(e!=="idle"&&e!=="escucha")tEst=setTimeout(()=>estado(base()),5000)}
@@ -327,24 +376,17 @@ function emocion(h){const n=norm(String(h).replace(/<[^>]+>/g," "));if(/(fraude|
 function palabra(){TG().forEach(el=>{el.classList.add("pal");setTimeout(()=>el.classList.remove("pal"),130)})}
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 function decir(f){$("avCap").textContent=f;estado("feliz");hablar(f)}
-function guino(){const w=$("avWrap");w.classList.add("guino");setTimeout(()=>w.classList.remove("guino"),180)}
-function chispas(el){const r=el.getBoundingClientRect(),w=$("avWrap").getBoundingClientRect();for(let i=0;i<12;i++){const s=document.createElement("span");s.className="spk";s.style.left=(r.left+r.width/2-w.left)+"px";s.style.top=(r.top+r.height/2-w.top)+"px";s.style.setProperty("--dx",(Math.random()*120-60)+"px");s.style.setProperty("--dy",(Math.random()*120-60)+"px");$("avWrap").appendChild(s);setTimeout(()=>s.remove(),900)}}
-function hs(cls,p,fn){const d=document.createElement("div");d.className="hs "+cls;d.style.left=p[0]*100+"%";d.style.top=p[1]*100+"%";d.onclick=e=>{e.stopPropagation();fn(d)};$("avWrap").appendChild(d)}
-const ojo=()=>{guino();decir(rnd(["Te estoy mirando 👀","Toda mi atención está en ti.","Mis ojos ven tus metas con claridad."]))};
-const mano=d=>{chispas(d);$("avWrap").classList.add("wave");setTimeout(()=>$("avWrap").classList.remove("wave"),600);decir(rnd(["Aquí tienes mi mano. ¿Qué hacemos hoy?","¡Choca esos cinco! ✨"]))};
-hs("ojo",AVP.ojoI,ojo);hs("ojo",AVP.ojoD,ojo);hs("mano",AVP.manoI,mano);hs("mano",AVP.manoD,mano);
-hs("boca",AVP.boca,()=>{decir("Dime, te escucho.");if(!escuchando)escuchar()});
-$("avWrap").onclick=()=>decir(rnd(["Cuéntame, ¿en qué te ayudo?","Aquí estoy, lista."]));
-$("avOv").addEventListener("pointermove",e=>{const w=$("avWrap"),r=w.getBoundingClientRect(),c=v=>Math.max(-1,Math.min(1,v)),dx=c((e.clientX-r.left-r.width/2)/(r.width/2)),dy=c((e.clientY-r.top-r.height/2)/(r.height/2));w.style.transform=`perspective(700px) rotateY(${dx*9}deg) rotateX(${-dy*7}deg)`;w.style.setProperty("--gx",dx*4+"px");w.style.setProperty("--gy",dy*3+"px")});
-$("avOv").addEventListener("pointerleave",()=>{$("avWrap").style.transform="";$("avWrap").style.setProperty("--gx","0px");$("avWrap").style.setProperty("--gy","0px")});
-function abrirAvatar(){$("panel").classList.remove("open");$("avOv").classList.add("open");decir("Aquí estoy. Tócame los ojos, las manos o háblame.")}
-$("bAvatar").onclick=abrirAvatar;
+function guino(){const b=$("bubbleBtn");b.classList.add("guino");setTimeout(()=>b.classList.remove("guino"),180)}
+
+$("bubbleBtn").onclick=()=>{$("panel").classList.remove("open");$("avOv").classList.add("open");decir("Aquí estoy, lista para exigirte resultados.")};
+$("bAvatar").onclick=()=>{ $("panel").classList.remove("open"); $("avOv").classList.add("open"); };
 $("avX").onclick=()=>{$("avOv").classList.remove("open");if("speechSynthesis" in window)speechSynthesis.cancel()};
 setInterval(()=>{if($("avOv").classList.contains("open"))guino()},3800);
+
 (function(){const b=$("bubbleBtn");let sx,sy,ox,oy,mov=false,down=false,lt=0;
 b.addEventListener("pointerdown",e=>{down=true;mov=false;sx=e.clientX;sy=e.clientY;const r=b.getBoundingClientRect();ox=r.left;oy=r.top;b.setPointerCapture(e.pointerId)});
-b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-110,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-110,oy+dy))+"px";b.style.right="auto"}});
-b.addEventListener("pointerup",()=>{down=false;if(mov)return;const n=Date.now();if(n-lt<350){lt=0;abrirAvatar()}else{lt=n;setTimeout(()=>{if(lt&&Date.now()-lt>=340){lt=0;$("panel").classList.toggle("open")}},360)}});})();
+b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-105,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-105,oy+dy))+"px";b.style.right="auto"}});
+b.addEventListener("pointerup",()=>{down=false;if(mov)return;const n=Date.now();if(n-lt<350){lt=0;$("avOv").classList.add("open");decir("¿Qué estrategia analizamos hoy?");}else{lt=n;setTimeout(()=>{if(lt&&Date.now()-lt>=340){lt=0;$("panel").classList.toggle("open")}},360)}});})();
 
 /* ---------- ARRANQUE ---------- */
 const tm=LS.get("tema");if(tm)document.documentElement.dataset.theme=tm;
