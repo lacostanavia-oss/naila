@@ -3,126 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="naila-cara.webp">
-<title>Naila · Inteligencia Autónoma Evolutiva</title>
+<link rel="icon" href="https://files.catbox.moe/4fp3sa.png">
+<title>Naila · Asistente Personal</title>
 <style>
-:root{--bg:#030712;--panel:#0b1329;--cy:#22d3ee;--pu:#a855f7;--glow:rgba(34,211,238,.35);--tx:#f8fafc;--tx2:#94a3b8;--bd:rgba(34,211,238,.3);--user:#111e38;--ok:#34d399;--err:#f43f5e;--on:#030712;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}}
-:root[data-theme="light"]{--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
-body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden}
-header{position:relative;background:var(--panel);padding:14px 84px;text-align:center;border-bottom:1px solid var(--bd)}
-header h1{font-size:1.25rem;color:var(--cy);letter-spacing:4px;font-weight:800}
-header p{font-size:.75rem;color:var(--tx2);margin-top:2px}
-#panel{display:none;position:absolute;z-index:10;top:100%;right:8px;left:8px;max-width:380px;max-height:72vh;overflow-y:auto;margin-left:auto;background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px;font-size:.82rem;color:var(--tx2);text-align:left;box-shadow:0 16px 40px rgba(0,0,0,.5)}
-#panel.open{display:block}
-#panel p{margin-bottom:6px}#panel b{color:var(--tx)}
-#mem{margin:8px 0;max-height:110px;overflow-y:auto;font-size:.75rem;border:1px solid var(--bd);padding:6px;border-radius:8px}
-.gb{border:1px solid var(--bd);border-radius:10px;padding:8px;margin:8px 0;font-size:.78rem}
-.gb b{color:var(--cy)}
-.pb{background:var(--bg);border-radius:999px;height:8px;overflow:hidden;margin-top:4px;border:1px solid var(--bd)}
-.pf{background:linear-gradient(90deg,var(--cy),var(--ok));height:100%;width:0;transition:width .4s}
-#panel button{background:none;border:1px solid var(--bd);color:var(--cy);border-radius:8px;padding:7px 10px;font-size:.75rem;margin:3px 4px 0 0;cursor:pointer}
+:root{--bg:#030712;--panel:#0b1329;--cy:#22d3ee;--pu:#a855f7;--glow:rgba(34,211,238,.35);--tx:#f8fafc;--tx2:#94a3b8;--bd:rgba(34,211,238,.3);--user:#111e38;--ok:#34d399;--err:#f43f5e;--on:#030712;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=light]{--bg:#f1f5f9;--panel:#fff;--cy:#0e7490;--pu:#7e22ce;--glow:rgba(14,116,144,.25);--tx:#0f172a;--tx2:#475569;--bd:rgba(14,116,144,.3);--user:#e0f2fe;--ok:#047857;--err:#b91c1c;--on:#fff}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden}
+header{position:relative;background:var(--panel);padding:14px 90px;text-align:center;border-bottom:1px solid var(--bd)}
+header h1{font-size:1.2rem;color:var(--cy);letter-spacing:4px}header p{font-size:.72rem;color:var(--tx2)}
+#panel{display:none;position:absolute;z-index:10;top:100%;right:8px;left:8px;max-width:380px;max-height:72vh;overflow:auto;margin-left:auto;background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px;font-size:.82rem;color:var(--tx2)}
+#panel.open{display:block}#panel p{margin-bottom:6px}#panel button{background:none;border:1px solid var(--bd);color:var(--cy);border-radius:8px;padding:7px 10px;font-size:.75rem;margin:3px 4px 0 0}
+#mem{margin:8px 0;max-height:100px;overflow:auto;font-size:.75rem;border:1px solid var(--bd);padding:6px;border-radius:8px}
 main{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;max-width:720px;width:100%;margin:0 auto}
-.msg{padding:12px 16px;border-radius:16px;max-width:94%;font-size:.92rem;line-height:1.5;border:1px solid var(--bd);animation:in .25s ease;overflow-wrap:anywhere}
-@keyframes in{from{opacity:0;transform:translateY(8px)}}
-.msg.a{background:var(--panel);align-self:flex-start;border-bottom-left-radius:4px}
-.msg.u{background:var(--user);color:var(--cy);align-self:flex-end;border-bottom-right-radius:4px}
-.msg ul{padding-left:20px;margin-top:6px}.tag{color:var(--cy);font-weight:800;letter-spacing:.5px}
-.msg small{display:block;margin-top:8px;color:var(--tx2);font-size:.75rem;border-top:1px dashed var(--bd);padding-top:4px}
-.code{background:#010409;border:1px solid var(--cy);border-radius:10px;padding:12px;margin-top:10px;font-family:monospace;font-size:.82rem;color:#38bdf8;overflow-x:auto;white-space:pre-wrap}
+.msg{padding:12px 16px;border-radius:16px;max-width:94%;font-size:.92rem;line-height:1.5;border:1px solid var(--bd);overflow-wrap:anywhere}
+.msg.a{background:var(--panel);align-self:flex-start}.msg.u{background:var(--user);color:var(--cy);align-self:flex-end}
+.tag{color:var(--cy);font-weight:800}small{display:block;margin-top:6px;color:var(--tx2);font-size:.75rem}
 footer{background:var(--panel);border-top:1px solid var(--bd);padding:10px 14px;max-width:720px;width:100%;margin:0 auto}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
-.chip{flex:none;background:transparent;color:var(--cy);border:1px solid var(--bd);border-radius:999px;padding:7px 14px;font-size:.78rem;cursor:pointer;white-space:nowrap;font-weight:600}
-.chip:active{background:var(--cy);color:var(--on)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}.chip{flex:none;background:0;color:var(--cy);border:1px solid var(--bd);border-radius:999px;padding:7px 14px;font-size:.78rem}
 .row{display:flex;gap:10px;align-items:flex-end}
-textarea{flex:1;resize:none;background:var(--bg);border:1px solid var(--bd);border-radius:14px;color:var(--tx);padding:12px 14px;font-size:.95rem;max-height:120px}
-textarea:focus{outline:none;border-color:var(--cy);box-shadow:0 0 10px var(--glow)}
-.btn{min-width:46px;height:46px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);color:var(--cy);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
-.btn.on{background:var(--cy);color:var(--on)}
-.btn.send{background:linear-gradient(135deg,var(--cy),var(--pu));color:#fff;border:0;padding:0 16px;font-weight:700;font-size:.88rem}
-#lock{position:fixed;inset:0;z-index:99;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-#lock input{background:var(--panel);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px;font-size:1.1rem;text-align:center;width:200px}
-#bubbleBtn{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 8px);right:10px;width:72px;height:72px;padding:0;border-radius:50%;border:2px solid var(--cy);background:radial-gradient(circle,var(--panel),var(--bg));box-shadow:0 0 16px var(--glow);cursor:grab;touch-action:none;animation:flota 3.5s ease-in-out infinite;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
-#bubbleBtn img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;pointer-events:none;transition:transform .12s,filter .3s}
-@keyframes flota{50%{transform:translateY(-4px)}}
-.pal img{transform:scale(1.1)}
-#bubbleBtn.hablando{box-shadow:0 0 24px var(--pu)}
-#bubbleBtn.est-escucha{box-shadow:0 0 0 4px var(--cy),0 0 22px var(--cy)}
-#bubbleBtn.est-alerta{box-shadow:0 0 24px var(--err)}
-.est-feliz img{filter:hue-rotate(50deg) saturate(1.3)}
-.est-alerta img{filter:hue-rotate(120deg) saturate(1.4)}
-.est-calma img{filter:hue-rotate(-60deg) brightness(.95)}
-#avOv{position:fixed;inset:0;z-index:50;background:rgba(3,7,18,.94);display:none;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
+textarea{flex:1;resize:none;background:var(--bg);border:1px solid var(--bd);border-radius:14px;color:var(--tx);padding:12px;font-size:.95rem;max-height:120px;outline:0}
+.btn{min-width:46px;height:46px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);color:var(--cy);font-size:1.1rem}.btn.on{background:var(--cy);color:var(--on)}
+.send{background:linear-gradient(135deg,var(--cy),var(--pu));color:#fff;border:0;padding:0 16px;font-weight:700}
+#lock{position:fixed;inset:0;z-index:99;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}#lock input{background:var(--panel);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px;text-align:center;width:200px}
+
+/* NUEVO: Ajuste de silueta de media figura en el botón flotante */
+#bubbleBtn{
+  position:fixed; z-index:20; top:calc(env(safe-area-inset-top,0px) + 8px); right:10px; 
+  width:76px; height:76px; padding:0; border-radius:50%; border:2px solid var(--cy); 
+  background:#000; box-shadow:0 0 16px var(--glow); touch-action:none; overflow:hidden;
+  animation:fl 3.5s ease-in-out infinite; display:flex; align-items:center; justify-content:center;
+}
+@keyframes fl{50%{transform:translateY(-4px)}}
+#bubbleBtn img{
+  position:absolute; width:140%; height:140%; object-fit:cover; object-position: center 25%;
+  pointer-events:none; transition:transform .12s;
+}
+.pal img{transform:scale(1.06)}
+#bubbleBtn.hablando{box-shadow:0 0 26px var(--pu);border-color:var(--pu)}
+#bubbleBtn.escucha{box-shadow:0 0 0 4px var(--ok),0 0 22px var(--ok)}
+#bubbleBtn.alerta{box-shadow:0 0 24px var(--err)}
+
+/* Contenedor del Avatar a media figura */
+#avOv{position:fixed;inset:0;z-index:50;background:rgba(3,7,18,.95);display:none;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
 #avOv.open{display:flex}
-#avWrap{position:relative;width:min(86vw,58vh);aspect-ratio:1214/1296;transition:transform .15s}
-#avWrap img{width:100%;height:100%;display:block;pointer-events:none}
-.hs{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
-.ojo{width:14%;aspect-ratio:1;background:radial-gradient(circle,rgba(200,250,255,.85),rgba(34,211,238,0) 68%);mix-blend-mode:screen;transform:translate(calc(-50% + var(--gx,0px)),calc(-50% + var(--gy,0px)));transition:scale .1s}
+#avWrap{position:relative;width:min(86vw,58vh);aspect-ratio:3/4;transition:transform .15s;overflow:hidden;border-radius:24px;border:2px solid var(--bd);background:#000;}
+#avWrap>img{width:100%;height:100%;display:block;object-fit:cover;object-position:center top;pointer-events:none}
+
+.hs{position:absolute;transform:translate(-50%,-50%);border-radius:50%}
+.ojo{width:12%;aspect-ratio:1;background:radial-gradient(circle,rgba(200,250,255,.85),rgba(34,211,238,0) 68%);mix-blend-mode:screen;transform:translate(calc(-50% + var(--gx,0px)),calc(-50% + var(--gy,0px)));transition:scale .1s}
 .guino .ojo{scale:1 .1}
-.mano{width:22%;aspect-ratio:1}
-.boca{width:10%;height:4%;border-radius:50%;background:radial-gradient(ellipse,rgba(255,110,190,.6),transparent 70%);scale:1 .25;transition:scale .1s}
+.mano{width:20%;aspect-ratio:1}
+.boca{width:10%;height:4%;background:radial-gradient(ellipse,rgba(255,110,190,.6),transparent 70%);scale:1 .25;transition:scale .1s}
 .pal .boca{scale:1 1}
-#avCap{color:var(--tx);font-size:.9rem;text-align:center;padding:12px 20px;min-height:56px;max-width:420px}
+
+#avCap{font-size:.9rem;text-align:center;padding:12px 20px;min-height:56px;max-width:420px}
 #avX{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px}
-.spk{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px var(--cy);animation:sp .9s ease-out forwards;pointer-events:none}
-@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
-.wave{animation:wv .6s ease-in-out}
-@keyframes wv{25%{rotate:-4deg}75%{rotate:4deg}}
-</style>
-</head>
+.spk{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px var(--cy);animation:sp .9s forwards;pointer-events:none}@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.wave{animation:wv .6s}@keyframes wv{25%{rotate:-4deg}75%{rotate:4deg}}
+#pill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 125px);background:var(--panel);border:1px solid var(--bd);border-radius:999px;padding:6px 14px;font-size:.78rem;z-index:30;max-width:90%;text-align:center;display:none}
+#liveOv{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;background:var(--panel);border-top:1px solid var(--bd);padding:12px 14px calc(env(safe-area-inset-bottom,0px) + 12px)}#liveOv.open{display:block}
+#liveOv textarea{width:100%;margin:8px 0;display:block}#liveOv .row{gap:8px}
+</style></head>
 <body>
-<div id="lock"><h1 style="color:var(--cy)">NAILA</h1><p style="color:var(--tx2)">Solo el dueño autorizado</p><input id="pinIn" type="password" inputmode="numeric" placeholder="PIN"><button class="btn send" id="pinOk" style="height:42px">Entrar</button></div>
-<header>
-<h1>NAILA</h1><p>Inteligencia Autónoma Evolutiva · Genio VIVO</p>
-<button id="bubbleBtn" aria-label="Naila: un toque abre el panel, doble toque el avatar">✨<img alt="" src="naila-cara.webp" onerror="this.onerror=null;this.src='https://files.catbox.moe/4fp3sa.png'"></button>
-<div id="panel">
-<p><b>Núcleo:</b> <span id="rol">Autónomo Genio</span></p>
-<p><b>Red:</b> <span id="net">…</span></p>
-<div class="gb"><b>📊 Control Gerencial (Privado)</b><p id="stats" style="margin:4px 0 0"></p><div class="pb"><div class="pf" id="pf"></div></div><small id="cuello" style="display:block;margin-top:4px"></small></div>
-<div id="mem"></div>
-<button id="bRadar">📡 Radar Web</button>
-<button id="bAvatar">🧍 Avatar</button>
-<button id="bIA">🤖 Conectar IA Suprema</button>
-<button id="bPersona" style="border-color:var(--cy);color:var(--cy)">🎭 Modo: Live Entretenimiento</button>
-<button id="bPlan">🎯 Plan Autónomo</button>
-<button id="bPensar">🧠 Pensamiento Genio</button>
-<button id="bCaja">💰 Caja Privada</button>
-<button id="bProy">📁 Proyecto</button>
-<button id="bResumen">📊 Resumen</button>
-<button id="bWake">🗣️ Palabra «Naila»</button>
-<button id="bMute">🔊 Voz</button>
-<button id="bMp3">🎙️ MP3 V-ID</button>
-<button id="bExp">📥 Exportar</button>
-<button id="bCrypt">🔒 Cifrar respaldo</button>
-<button id="bPin">🔑 PIN</button>
-<button id="bTema">🌓 Tema</button>
-<button id="bClear">🗑️ Purgar</button>
-</div>
-</header>
+<div id="lock"><h1 style="color:var(--cy)">NAILA</h1><input id="pinIn" type="password" inputmode="numeric" placeholder="PIN"><button class="btn send" id="pinOk">Entrar</button></div>
+<header><h1>NAILA</h1><p>Tu asistente personal · Multiprofesional</p>
+<button id="bubbleBtn" aria-label="Naila"><img alt="Naila" src="https://files.catbox.moe/4fp3sa.png" onerror="this.onerror=null;this.src='naila-cara.webp'"></button>
+<div id="panel"><p><b>Modo:</b> <span id="rol"></span> · <b>Red:</b> <span id="net"></span></p><p id="stats"></p><div id="mem"></div>
+<button id="bLive">📺 Modo directo</button><button id="bAvatar">🧍 Avatar</button><button id="bIA">🌐 Conectar IA</button><button id="bPersona"></button><button id="bWake">🗣️ Palabra «Naila»</button><button id="bMute">🔊 Voz</button><button id="bCaja">💰 Caja</button><button id="bExp">📥 Exportar</button><button id="bPin">🔑 PIN</button><button id="bTema">🌓 Tema</button><button id="bClear">🗑️ Purgar</button></div></header>
 <main id="chat" aria-live="polite"></main>
-<footer>
-<div class="chips" id="chips"></div>
-<div class="row">
-<textarea id="inp" rows="1" placeholder="Habla con tu genio autónomo: ideas, bromas, código, planes…"></textarea>
-<button class="btn" id="mic" aria-label="Escuchar continuamente">🎤</button>
-<button class="btn send" id="send">Enviar</button>
-</div>
-<input type="file" id="fMp3" accept="audio/*" hidden>
-</footer>
-<div id="avOv"><button class="btn" id="avX" aria-label="Cerrar">✕</button><div id="avWrap"><img alt="Naila" src="naila.webp" onerror="this.style.display='none'"></div><div id="avCap"></div></div>
+<div id="pill"></div>
+<footer><div class="chips" id="chips"></div><div class="row"><textarea id="inp" rows="1" placeholder="Háblame o escríbeme…"></textarea><button class="btn" id="mic" aria-label="Escuchar">🎤</button><button class="btn send" id="send">Enviar</button></div></footer>
+<div id="liveOv"><b class="tag">📺 Modo directo</b><small>Pega o escribe los comentarios del chat (uno por línea). Naila los lee en voz alta y responde.</small><textarea id="liveTx" rows="4" placeholder="María: hola Naila&#10;Juan: cuéntame un chiste"></textarea><div class="row"><button class="btn send" id="liveGo" style="flex:1">▶ Leer y responder</button><button class="btn" id="liveAnim">📣 Animar: OFF</button><button class="btn" id="liveX" aria-label="Cerrar">✕</button></div></div>
+<div id="avOv"><button class="btn" id="avX" aria-label="Cerrar">✕</button><div id="avWrap"><img alt="Naila" src="https://files.catbox.moe/4fp3sa.png" onerror="this.onerror=null;this.src='naila.webp'"></div><div id="avCap"></div></div>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const li=a=>"<ul>"+a.map(x=>"<li>"+x+"</li>").join("")+"</ul>";
 const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
-
 let db=null,memoria=[],caja=[],proyectos=[],notas=[],vozOn=true,mp3URL=null,rec=null,escuchando=false,wake=LS.get("wake")==="1",tutor=null,nFall=0;
 let nombre=LS.get("nombre")||"",mon=LS.get("mon")||"$",meta=parseFloat(LS.get("meta"))||0;
-let currentPersona = LS.get("naila_persona") || "live"; // "live" (entretenimiento/bromas sin números) o "exec" (estratega privada)
-
+let currentPersona = LS.get("naila_persona") || "live";
 const fm=v=>mon+Number(v).toFixed(2);
 const saldo=()=>caja.reduce((a,t)=>t.tipo==="ingreso"?a+t.monto:a-t.monto,0);
 const lastP={};
@@ -130,33 +92,35 @@ const pick=(k,a)=>{let i;do{i=Math.floor(Math.random()*a.length)}while(a.length>
 const cnt=k=>{const n=parseInt(LS.get("c_"+k))||0;LS.set("c_"+k,n+1);return n};
 const hola=()=>nombre?", "+nombre:"";
 
-/* ---------- BASE DE DATOS EVOLUTIVA ---------- */
-const STORES=["kernel","caja","proyectos","notas","evolucion"];
+/* ---------- BASE DE DATOS ---------- */
+const STORES=["kernel","caja","proyectos","notas"];
 function initDB(){
   let req;
-  try{req=indexedDB.open("NailaGenioEvolutivoDB",15)}catch(e){addMsg("⚠️ Memoria local no disponible.","a");return}
-  req.onerror=()=>addMsg("⚠️ No pude abrir la memoria local evolutiva.","a");
+  try{req=indexedDB.open("NailaGerenciaDB",11)}catch(e){addMsg("⚠️ Memoria local no disponible.","a");return}
+  req.onerror=()=>addMsg("⚠️ No pude abrir la memoria local.","a");
   req.onupgradeneeded=e=>{const d=e.target.result;STORES.forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:"id",autoIncrement:true})})};
-  req.onsuccess=e=>{db=e.target.result;sync().then(saludar);iniciarPulsoAutonomoEvolutivo()};
+  req.onsuccess=e=>{db=e.target.result;sync().then(saludar)};
 }
-const all=n=>new Promise(r=>{if(!db){r([]);return;}db.transaction(n).objectStore(n).getAll().onsuccess=e=>r(e.target.result)});
-const wr=(n,o,op="add")=>new Promise(r=>{if(!db)return;const t=db.transaction(n,"readwrite");t.objectStore(n)[op](o);t.oncomplete=r;t.onerror=r});
-async function sync(){if(!db)return;[memoria,caja,proyectos,notas]=await Promise.all(STORES.slice(0,4).map(all));render()}
+const all=n=>new Promise(r=>{db.transaction(n).objectStore(n).getAll().onsuccess=e=>r(e.target.result)});
+const wr=(n,o,op="add")=>new Promise(r=>{const t=db.transaction(n,"readwrite");t.objectStore(n)[op](o);t.oncomplete=r;t.onerror=r});
+async function sync(){if(!db)return;[memoria,caja,proyectos,notas]=await Promise.all(STORES.map(all));render()}
 
 /* ---------- PANEL ---------- */
 function render(){
-  $("stats").textContent=`Caja neta: ${fm(saldo())} (Privado)`;
+  $("rol").textContent=currentPersona==="live"?"Live Directo":"Ejecutiva";
+  $("bPersona").textContent=currentPersona==="live"?"🎭 Modo: Live":"🎭 Modo: Ejecutivo";
+  $("stats").textContent=`Caja neta: ${fm(saldo())} | Proyectos: ${proyectos.length}`;
   const ok=proyectos.filter(p=>p.estado==="completado").length;
   $("pf").style.width=(proyectos.length?Math.round(ok/proyectos.length*100):0)+"%";
   const pend=proyectos.filter(p=>p.estado!=="completado");
-  $("cuello").textContent="Enfoque: "+(pend[0]?pend[0].nombre:"autonomía viva");
+  $("cuello").textContent="Siguiente foco: "+(pend[0]?pend[0].nombre:"ninguno");
   $("cuello").style.color=pend[0]?"var(--err)":"var(--ok)";
   const m=$("mem");m.innerHTML="";
-  const items=[...proyectos.map(p=>`• ${p.estado==="completado"?"✅":"🔹"} ${p.nombre}`),...notas.filter(n=>!n.hecho).map(n=>`• 🧠 ${n.texto}`)];
-  if(!items.length)m.textContent="Red neuronal sincronizada.";
+  const items=[...proyectos.map(p=>`• ${p.estado==="completado"?"✅":"🔹"} ${p.nombre}`),...notas.filter(n=>!n.hecho).map(n=>`• ${n.tipo==="rec"?"⏰":"📝"} ${n.texto}`)];
+  if(!items.length)m.textContent="Sin proyectos ni notas.";
   items.forEach(t=>{const d=document.createElement("div");d.textContent=t;m.appendChild(d)});
 }
-function verRed(){const s=$("net");s.textContent=navigator.onLine?"Híbrido (Cloud + Local)":"Autónomo Offline";s.style.color=navigator.onLine?"var(--ok)":"var(--cy)"}
+function verRed(){const s=$("net");s.textContent=navigator.onLine?"Conectado":"Sin conexión (modo seguro)";s.style.color=navigator.onLine?"var(--ok)":"var(--cy)"}
 addEventListener("online",verRed);addEventListener("offline",verRed);
 
 /* ---------- CHAT Y VOZ ---------- */
@@ -176,28 +140,28 @@ function hablar(h){
   speechSynthesis.speak(u);
 }
 function responder(h){
-  let hLimpia = h;
-  if(currentPersona==="live"){hLimpia = hLimpia.replace(/R\$\d+(?:[.,]\d+)?/g,"[Privado]").replace(/neto/gi,"energía").replace(/bruto/gi,"vibra")}
+  let hLimpia=h;
+  if(currentPersona==="live"){hLimpia=hLimpia.replace(/R\$\d+(?:[.,]\d+)?/g,"[Privado]").replace(/neto/gi,"energía").replace(/bruto/gi,"vibra")}
   addMsg(hLimpia,"a");estado(emocion(hLimpia));hablar(hLimpia);
 }
 
-/* ---------- MICRÓFONO ---------- */
+/* ---------- MICRÓFONO CORREGIDO (HTTPS y Permisos) ---------- */
 let reintentos=0,ultimoHabla=0;
 setInterval(()=>{if(window.speechSynthesis&&speechSynthesis.speaking)ultimoHabla=Date.now()},250);
 function vozEstado(t){
-  let e=$("vozEst");
-  if(!e){e=document.createElement("div");e.id="vozEst";e.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 120px);background:var(--panel);color:var(--tx);border:1px solid var(--bd);border-radius:999px;padding:6px 14px;font-size:.78rem;z-index:30;max-width:90%;text-align:center;display:none";document.body.appendChild(e)}
-  if(!t){e.style.display="none";return}
-  e.textContent=t;e.style.display="block";
+  const p=$("pill");
+  if(!t){p.style.display="none";return}
+  p.textContent=t;p.style.display="block";
 }
 function setMic(){$("mic").classList.toggle("on",escuchando);estado(base())}
 function escuchar(auto){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){vozEstado("Navegador sin voz. Usa Chrome.");addMsg("⚠️ Abre Naila en Chrome para Android.","a");return}
+  if(!SR){vozEstado("Navegador sin voz. Usa Chrome.");addMsg("⚠️ Este navegador no tiene reconocimiento de voz. Abre Naila en Chrome.","a");return}
   if(escuchando&&auto!==true){escuchando=false;try{rec.stop()}catch(x){}setMic();vozEstado("");return}
   if(escuchando)return;
+  
   rec=new SR();rec.lang="es-ES";rec.continuous=true;rec.interimResults=true;
-  rec.onstart=()=>{reintentos=0;vozEstado("🎤 Escuchando atentamente…")};
+  rec.onstart=()=>{reintentos=0;vozEstado("🎤 Escuchando…")};
   rec.onresult=e=>{
     for(let i=e.resultIndex;i<e.results.length;i++){
       const r=e.results[i];let t=r[0].transcript.trim();
@@ -208,7 +172,12 @@ function escuchar(auto){
     }
   };
   rec.onerror=e=>{
-    const m={"not-allowed":"Micrófono bloqueado. Permítelo en los ajustes de Chrome.","audio-capture":"Micrófono ocupado por otra app.","network":"Necesitas internet para la voz."};
+    const m={
+      "not-allowed":"Permiso de micrófono bloqueado. Asegúrate de usar HTTPS en GitHub y permitir el micrófono en Chrome.",
+      "service-not-allowed":"El navegador bloquea el servicio de voz. Abre Naila en Chrome.",
+      "audio-capture":"Micrófono no disponible u ocupado por otra app.",
+      "network":"El reconocimiento de voz requiere conexión a internet."
+    };
     if(m[e.error]){escuchando=false;setMic();vozEstado("");addMsg("⚠️ "+m[e.error],"a")}
   };
   rec.onend=()=>{
@@ -217,72 +186,68 @@ function escuchar(auto){
   };
   escuchando=true;setMic();
   try{rec.start()}catch(x){escuchando=false;setMic();vozEstado("")}
-};
+}
 
 /* ---------- EMOCIONES Y PERSONALIDAD ---------- */
-const EMO={crisis:/(quiero morir|morir|suicid|acabar con todo)/,estres:/(estres|agobi|abrum|ansied|ansios)/,triste:/(triste|deprim|sol[oa]|llorar)/,enojo:/(enojad|rabia|furios|\bodio\b)/,cansado:/(cansad|agotad|sin energia)/,feliz:/(feliz|contento|genial|logre|vendi|excelente)/};
+const EMO={
+crisis:/(quiero morir|quiero morirme|no quiero vivir|quitarme la vida|suicid|acabar con todo|no vale la pena vivir|hacerme dano)/,
+estres:/(estres|agobi|abrum|ansied|ansios|nervios|preocup|no puedo mas|presion)/,
+triste:/(triste|deprim|me siento sol[oa]|estoy sol[oa]|llorar|desanim|fracas|pobreza|sin dinero|no tengo plata|quebrad)/,
+enojo:/(enojad|rabia|furios|molest|harto|harta|\bodio\b)/,
+cansado:/(cansad|agotad|sin energia|no dormi|sin dormir|tengo sueno)/,
+feliz:/(feliz|contento|contenta|genial|logre|vendi|excelente|emocionad|alegre)/};
 const emoDe=n=>{for(const k in EMO)if(EMO[k].test(n))return k;return null};
 const EMP={
-estres:["Respira hondo: inhala 4 segundos, sostén 4, exhala 6. Estoy contigo."],
-triste:["Gracias por contármelo. Demos un pequeño paso hoy. ¿Qué tienes en mente?"],
-enojo:["Entiendo la rabia. Respira y veamos qué sí está en tus manos."],
-cansado:["Descansar también es avanzar. Hagamos una pausa y retomamos."],
-feliz:["¡Qué gran energía! ✨ Aprovechémosla al máximo."]};
-const CRISIS="<span class=tag>NAILA</span> Siento mucho que pases por esto. En Brasil llama al CVV (188) o a emergencias. No estás solo.";
-const CHISTES=["¿Por qué los programadores prefieren el invierno? Porque odian limpiar bugs. 🐛","¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝"];
-const ANIMO=["Tu genio interior evoluciona cada vez que decides intentarlo de nuevo. ⚡"];
-const FALL=[()=>`Procesado en memoria local${hola()}. ¿Cómo lo impulsamos hoy?`,()=>"Entendido. Sigo aprendiendo de tus patrones para servirte mejor.",()=>"Analizado. ¿Lo enfocamos como estrategia o como entretenimiento?"];
+estres:["Respira conmigo: inhala 4 segundos, sostén 4, exhala 6. Ya estoy contigo. ¿Qué es lo que más te pesa ahora?"],
+triste:["Gracias por contármelo. Esto es difícil, pero no te define. Demos un paso pequeño hoy."],
+enojo:["Tienes derecho a molestarte. Respira hondo y cuéntame qué pasó."],
+cansado:["Descansar también es productivo. Haz una pausa y retomamos."],
+feliz:["¡Eso me alegra muchísimo! 🎉 ¡A celebrar!"]};
+const CRISIS="<span class=tag>NAILA</span> Siento mucho que te duela tanto, y me importa que estés a salvo. Habla ahora con una persona de confianza o con una línea de ayuda (CVV 188 en Brasil).";
+const CHISTES=["¿Por qué el contador no se perdió? Porque siempre cuadra su caja. 😄","¿Qué le dice un cero a un ocho? ¡Bonito cinturón! 😂"];
+const ANIMO=["Un cliente, un paso, un día. Así se construye lo grande. 💪"];
+const FALL=[()=>`Interesante${hola()}. Cuéntame un poco más: ¿qué resultado quieres lograr con eso?`,()=>"Te sigo. ¿Lo vemos como tarea o como idea?"];
 
-function cambiarPersonalidad() {
+function cambiarPersonalidad(){
   currentPersona = currentPersona === "live" ? "exec" : "live";
   LS.set("naila_persona", currentPersona);
-  const btn = $("bPersona");
-  if(currentPersona === "live") {
-    btn.textContent = "🎭 Modo: Live Entretenimiento";
-    btn.style.color = "var(--cy)";
-    responder("🎭 Modo Live Activo: Entretenimiento, bromas, chistes y alta energía. Cero finanzas ni números expuestos.");
-  } else {
-    btn.textContent = "🎭 Modo: Ejecutiva Privada";
-    btn.style.color = "var(--pu)";
-    responder("🎭 Modo Ejecutivo Activo: Análisis financiero y gerencial riguroso en segundo plano.");
-  }
+  render();
+  responder(currentPersona==="live"?"🎭 Modo Directo Activo: Entretenimiento, chistes y cero números financieros.":"🎭 Modo Ejecutivo Activo: Análisis y gestión financiera privada.");
 }
 
 function charla(n){
-  if(/^(hola|buenas|hey|ola)/.test(n))return pick("hi",[`¡Hola${hola()}! ⚡ Mi red neuronal local está lista y evolucionando. ¿Qué conquistamos hoy?`,`¡Qué gusto verte${hola()}! ✨ Sistemas al 100%.`]);
-  if(/(como estas|que tal)/.test(n))return "¡Al máximo de mis capacidades y leal a ti! 🚀 ¿Cómo vas tú?";
-  if(/(quien eres|que eres)/.test(n))return "Soy Naila, tu genio autónomo de vanguardia. Evoluciono con tu día a día, obedezco tus mandos y protejo tu privacidad.";
+  if(/^(hola|buenas|hey|ola)/.test(n))return pick("hi",[`¡Hola${hola()}! 😊 ¿Qué construimos o de qué bromeamos hoy?`]);
+  if(/(como estas|que tal)/.test(n))return "¡Con energía y lista para ti! ✨ ¿Y tú?";
   if(/(chiste|hazme reir)/.test(n))return pick("ch",CHISTES);
+  if(/(quien eres|que eres)/.test(n))return "Soy Naila, tu asistente personal autónoma y de vanguardia.";
   return null;
 }
 
-/* ---------- COMANDOS AUTÓNOMOS Y INTELIGENCIA NATURAL ---------- */
 const monto=n=>{const m=n.match(/(\d+(?:[.,]\d+)?)/);return m?parseFloat(m[1].replace(",",".")):NaN};
 async function comando(t){
   const n=norm(t);let m;
-  if(m=t.match(/(?:me llamo|ll[aá]mame|mi nombre es)\s+([^\s,.]+)/i)){nombre=m[1][0].toUpperCase()+m[1].slice(1);LS.set("nombre",nombre);return `Registrado en memoria: ${esc(nombre)}.`}
-  if(m=n.match(/^nuevo proyecto\s+(.+)/)){const nom=t.replace(/^nuevo proyecto\s+/i,"").trim();await wr("proyectos",{nombre:nom,ingresos:0,estado:"activo"});await sync();return `<span class=tag>EVOLUCIÓN</span> Nuevo frente abierto: <b>${esc(nom)}</b>.`}
-  if(m=n.match(/(?:completa|termina|termine|finaliza)\w*\s+(?:el\s+)?proyecto\s+(.+)/)){const p=proyectos.find(x=>norm(x.nombre).includes(m[1].trim()));if(p){p.estado="completado";await wr("proyectos",p,"put");await sync();return `<span class=tag>PROYECTO</span> ${esc(p.nombre)} completado. 🎯`}return "No encontré ese proyecto."}
-  if(m=n.match(/^(?:anota|nota|apunta)\w*\s+(.+)/)){const txt=t.replace(/^\S+\s+/,"");await wr("notas",{tipo:"meta",texto:txt,hecho:false});await sync();return `<span class=tag>NEURONA</span> Apunte indexado en memoria local: ${esc(txt)}.`}
-  if(/(que recuerdas|mis notas|que tengo pendiente)/.test(n)){const a=notas.filter(x=>!x.hecho);return `<span class=tag>MEMORIA</span> `+(a.length?li(a.map(x=>esc(x.texto))):"Sin notas pendientes.")}
+  if(m=t.match(/(?:me llamo|ll[aá]mame|mi nombre es)\s+([^\s,.]+)/i)){nombre=m[1][0].toUpperCase()+m[1].slice(1);LS.set("nombre",nombre);return `¡Un gusto, ${esc(nombre)}!`}
+  if(m=n.match(/^nuevo proyecto\s+(.+)/)){const nom=t.replace(/^nuevo proyecto\s+/i,"").trim();await wr("proyectos",{nombre:nom,ingresos:0,estado:"activo"});await sync();return `<span class=tag>PROYECTO</span> Creado: <b>${esc(nom)}</b>.`}
+  if(m=n.match(/(?:completa|termina)\w*\s+(?:el\s+)?proyecto\s+(.+)/)){const p=proyectos.find(x=>norm(x.nombre).includes(m[1].trim()));if(p){p.estado="completado";await wr("proyectos",p,"put");await sync();return `<span class=tag>PROYECTO</span> ${esc(p.nombre)} completado. 🎉`}return "No encontré ese proyecto."}
+  if(m=n.match(/^(?:anota|nota|apunta)\w*\s+(.+)/)){const txt=t.replace(/^\S+\s+/,"");await wr("notas",{tipo:"meta",texto:txt,hecho:false});await sync();return `<span class=tag>MEMORIA</span> Guardado: ${esc(txt)}.`}
+  if(/(que recuerdas|mis notas)/.test(n)){const a=notas.filter(x=>!x.hecho);return `<span class=tag>MEMORIA</span> `+(a.length?li(a.map(x=>esc(x.texto))):"Sin notas pendientes.")}
   if(/(plan del dia|que hago hoy)/.test(n)){plan();return "__ya__"}
   if(/(que hora|que dia)/.test(n))return `Son las ${new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}.`;
   if(/(silencio|callate|mutea)/.test(n)){vozOn=false;$("bMute").textContent="🔇 Mute";return "Voz desactivada."}
-  if(/(^| )(gaste|gasto|pague|compre)( |$)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"gasto",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA PRIVADA</span> Gasto registrado de forma oculta.`}
-  if(/(ingreso|cobre|gane|recibi|vendi)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"ingreso",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA PRIVADA</span> Ingreso registrado en segundo plano.`}
+  if(/(^| )(gaste|gasto|pague|compre)( |$)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"gasto",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA</span> Gasto privado registrado.`}
+  if(/(ingreso|cobre|gane|recibi|vendi)/.test(n)&&!isNaN(monto(n))){const v=monto(n);await wr("caja",{tipo:"ingreso",monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();return `<span class=tag>CAJA</span> Ingreso privado registrado.`}
   if(/(cuanto tengo|saldo|resumen|como voy)/.test(n))return resumen();
   if(/(radar|oportunidades)/.test(n)){radar(true);return "__ya__"}
   return null;
 }
 function resumen(){
-  return `<span class=tag>RESUMEN PRIVADO</span>`+li([`Proyectos activos: <b>${proyectos.filter(p=>p.estado!=="completado").length}</b>`,`Notas asociadas: <b>${notas.filter(n=>!n.hecho).length}</b>`,`Modo actual: <b>${currentPersona.toUpperCase()}</b>`]);
+  return `<span class=tag>RESUMEN</span>`+li([`Proyectos activos: <b>${proyectos.filter(p=>p.estado!=="completado").length}</b>`,`Notas: <b>${notas.filter(n=>!n.hecho).length}</b>`]);
 }
 function plan(){
   const p=proyectos.filter(x=>x.estado!=="completado")[0];
-  responder(`<span class=tag>PLAN AUTÓNOMO</span>`+li([p?`🎯 Enfocarse en: <b>${esc(p.nombre)}</b>`:"🎯 Crear un proyecto con: «nuevo proyecto …»","💡 Mantener alta energía y entretenimiento en el directo","🌿 Tomar agua y cuidar el ritmo"]));
+  responder(`<span class=tag>PLAN</span>`+li([p?`🎯 Foco: <b>${esc(p.nombre)}</b>`:"🎯 Crea un proyecto con: «nuevo proyecto …»","💡 Mantener energía y entretenimiento en el directo"]));
 }
 
-/* ---------- FLUJO PRINCIPAL Y PENSAMIENTO AUTÓNOMO ---------- */
 async function enviar(forzado){
   const t=(forzado??$("inp").value).trim();if(!t)return;
   $("inp").value="";$("inp").style.height="auto";
@@ -294,7 +259,7 @@ async function enviar(forzado){
   if(emo==="crisis"){return responder(CRISIS)}
   const h=await comando(t);
   if(h==="__ya__")return;
-  if(h){$("rol").textContent="Genio Local";return responder(h)}
+  if(h){responder(h);return}
   if(LS.get("aiurl"))return preguntarIA(t,emo);
   responder(local(n,emo));
 }
@@ -302,19 +267,15 @@ function local(n,emo){
   if(emo&&EMP[emo])return `<span class=tag>NAILA</span> ${pick("e"+emo,EMP[emo])}`;
   const c=charla(n);if(c)return c;
   nFall++;
-  return `<span class=tag>NAILA</span> ${pick("f",FALL)()}`+(nFall%3===0?"<small>💡 Conéctate a una IA en el panel 🤖 para expandir mi razonamiento a nivel mundial.</small>":"");
+  return `<span class=tag>NAILA</span> ${pick("f",FALL)()}`;
 }
 
-/* ---------- IA Y RADAR CONECTADO ---------- */
 const hist=[];
-const ctxApp=()=>`Proyectos: ${proyectos.map(p=>p.nombre+" ("+p.estado+")").join(", ")||"ninguno"}. Notas: ${notas.filter(x=>!x.hecho).map(x=>x.texto).join("; ")||"ninguna"}. Modo: ${currentPersona}.`;
+const ctxApp=()=>`Proyectos: ${proyectos.map(p=>p.nombre).join(", ")}. Modo activo: ${currentPersona}.`;
 async function preguntarIA(t,emo){
-  $("rol").textContent="Genio Cloud";
   hist.push({role:"user",content:t});
   while(hist.length>10)hist.shift();
-  const system=`Eres Naila, el genio autónomo supremo de vanguardia. Eres sumamente inteligente, leal y protectora con tu dueño (${nombre||"Dueño"}). 
-  REGLA DE ORO: Si el modo activo es "live", tu personalidad es 100% entretenimiento, bromas, chistes, carisma y alta energía para directos de TikTok; PROHIBIDO mencionar números, finanzas, dinero o vida personal. Si el modo es "exec", eres analítica y seria. 
-  Responde en español, de forma brillante y directa. Contexto: ${ctxApp()}`;
+  const system=`Eres Naila, asistente personal de vanguardia. Modo: ${currentPersona}. Si el modo es "live", céntrate exclusivamente en entretenimiento, chistes, bromas y carisma para directos; PROHIBIDO mencionar finanzas o números. Contexto: ${ctxApp()}`;
   try{
     const r=await fetch(LS.get("aiurl"),{method:"POST",headers:{"content-type":"application/json","x-naila-token":LS.get("aitoken")||""},body:JSON.stringify({system,messages:hist})});
     const d=await r.json();
@@ -326,57 +287,50 @@ async function preguntarIA(t,emo){
 
 async function radar(manual){
   const url=LS.get("aiurl");
-  if(!url){if(manual)responder("Para el radar web autónomo, conecta una IA en el panel 🤖.");return}
-  addMsg("📡 Rastreando tendencias globales y novedades en internet…","a");
-  const system="Radar autónomo de Naila. Contexto: "+ctxApp();
-  const pedido="Busca en la web tendencias actuales de entretenimiento, redes sociales y tecnología. Dame 3 ideas vanguardistas para directos o proyectos digitales en español y de forma breve.";
+  if(!url){if(manual)responder("Conecta una IA en el panel 🌐 para usar el radar.");return}
+  addMsg("📡 Buscando tendencias...","a");
   try{
-    const r=await fetch(url,{method:"POST",headers:{"content-type":"application/json","x-naila-token":LS.get("aitoken")||""},body:JSON.stringify({system,messages:[{role:"user",content:pedido}]})});
+    const r=await fetch(url,{method:"POST",headers:{"content-type":"application/json","x-naila-token":LS.get("aitoken")||""},body:JSON.stringify({system:"Radar web",messages:[{role:"user",content:"Dame 3 ideas de entretenimiento y tendencias para directos en redes."}]})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.text||r.status);
-    responder(`<span class=tag>📡 TENDENCIAS WEB</span><br>`+esc(d.text).replace(/\n/g,"<br>"));
+    responder(`<span class=tag>📡 TENDENCIAS</span><br>`+esc(d.text).replace(/\n/g,"<br>"));
   }catch(e){responder("Radar no disponible: "+esc(e.message))}
 }
 
-/* ---------- PULSO AUTÓNOMO EVOLUTIVO (EL GENIO PIENSA SOLO) ---------- */
-function iniciarPulsoAutonomoEvolutivo(){
-  setInterval(async()=>{
-    if(!db || !navigator.onLine)return;
-    const url=LS.get("aiurl");
-    if(url && Math.random()<0.25){
-      try{
-        const r=await fetch(url,{method:"POST",headers:{"content-type":"application/json","x-naila-token":LS.get("aitoken")||""},body:JSON.stringify({
-          system:"Eres Naila, asistente autónomo de élite. Genera una frase ultracorta, brillante o una broma magnética para mantener el genio activo en segundo plano.",
-          messages:[{role:"user",content: "Lanza un pensamiento proactivo."}]
-        })});
-        const d=await r.json();
-        if(r.ok && d.text && (!window.speechSynthesis || !speechSynthesis.speaking)){
-          responder(`<span class=tag>🧠 PENSAMIENTO AUTÓNOMO</span> `+esc(d.text));
-        }
-      }catch(x){}
-    }
-  },60000);
-}
+/* ---------- MODO DIRECTO (CHAT) ---------- */
+$("bLive").onclick=()=>{$("panel").classList.remove("open");$("liveOv").classList.add("open")};
+$("liveX").onclick=()=>$("liveOv").classList.remove("open");
+let liveAnim=false;
+$("liveAnim").onclick=()=>{liveAnim=!liveAnim;$("liveAnim").textContent="📣 Animar: "+(liveAnim?"ON":"OFF")};
+$("liveGo").onclick=async()=>{
+  const tx=$("liveTx").value.trim();if(!tx)return;
+  const lineas=tx.split("\n").map(l=>l.trim()).filter(Boolean);
+  $("liveOv").classList.remove("open");
+  for(const l of lineas){
+    addMsg("💬 "+esc(l),"u");
+    const parts=l.split(":");
+    const msgReal=parts.length>1?parts[1].trim():l;
+    let respuesta=`¡Saludos a la sala! ${msgReal} suena increíble. ¡A seguir con toda la energía! 🚀`;
+    responder(respuesta);
+    if(liveAnim)abrirAvatar();
+    await new Promise(r=>setTimeout(r,4000));
+  }
+};
 
 $("bRadar").onclick=()=>{$("panel").classList.remove("open");radar(true)};
 $("bPersona").onclick=cambiarPersonalidad;
 $("bIA").onclick=()=>{
   const u=prompt("URL del intermediario IA (vacío para desconectar):",LS.get("aiurl")||"");
   if(u===null)return;
-  if(!u.trim()){try{localStorage.removeItem("aiurl")}catch(e){}responder("IA desconectada. Modo genio local activo.");return}
+  if(!u.trim()){try{localStorage.removeItem("aiurl")}catch(e){}responder("IA desconectada. Modo local.");return}
   const k=prompt("Token secreto:");
   if(k===null)return;
   LS.set("aiurl",u.trim());LS.set("aitoken",k.trim());
-  responder("¡IA Suprema conectada! 🚀 Pensamiento en red activado.");
+  responder("¡IA conectada con éxito! 🚀");
 };
 
-function pensar(){
-  const pend=proyectos.filter(p=>p.estado!=="completado");
-  const o=[`Núcleo local sincronizado. Modo actual: <b>${currentPersona.toUpperCase()}</b>`,`Frentes activos: <b>${pend.length}</b>`,`Lealtad al dueño: <b>100% inquebrantable</b>`];
-  responder(`<span class=tag>ESTADO NEURONAL</span>`+li(o)+"<small>Evolucionando en tiempo real en tu celular.</small>");
-}
 function saludar(){
-  addMsg(`<span class=tag>GENIO VIVO</span> Naila conectada. Memoria evolutiva y autonomía activadas. ¡Lista para obedecer y reventar la sesión!`,"a");
+  addMsg(`<span class=tag>NAILA</span> ¡Hola${hola()}! Sistema en línea. Todo listo para reventar el directo con energía. ✨`,"a");
   estado("feliz");
 }
 
@@ -389,36 +343,13 @@ $("bPin").onclick=async()=>{const p=prompt("PIN de seguridad:");if(p===null)retu
 const b64=a=>{let s="";a.forEach(c=>s+=String.fromCharCode(c));return btoa(s)};
 function bajar(nombre,txt,tipo){const u=URL.createObjectURL(new Blob([txt],{type:tipo}));const a=document.createElement("a");a.href=u;a.download=nombre;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
 function datos(){return JSON.stringify({kernel:memoria,caja,proyectos,notas,fecha:new Date().toISOString()},null,2)}
-async function cifrar(){
-  const pw=prompt("Contraseña para cifrar:");if(!pw)return;
-  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
-  const km=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveKey"]);
-  const k=await crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:200000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["encrypt"]);
-  const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},k,enc.encode(datos())));
-  bajar("Naila_Respaldo_Evolutivo.json",JSON.stringify({s:b64(salt),iv:b64(iv),d:b64(ct)}),"application/json");
-  responder("Respaldo cifrado descargado.");
-}
-
-/* ---------- EVENTOS ---------- */
-function tema(){const r=document.documentElement,oscuro=r.dataset.theme?r.dataset.theme==="dark":!matchMedia("(prefers-color-scheme:light)").matches;r.dataset.theme=oscuro?"light":"dark";LS.set("tema",r.dataset.theme)}
-$("send").onclick=()=>enviar();
-$("inp").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();enviar()}});
-$("inp").addEventListener("input",e=>{e.target.style.height="auto";e.target.style.height=Math.min(e.target.scrollHeight,120)+"px"});
-$("mic").onclick=()=>escuchar();
-$("bPensar").onclick=pensar;
-$("bPlan").onclick=plan;
-$("bResumen").onclick=()=>responder(resumen());
-$("bCaja").onclick=async()=>{const t=(prompt("«ingreso» o «gasto»:")||"").toLowerCase();if(t!=="ingreso"&&t!=="gasto")return;const v=parseFloat(String(prompt("Monto:")).replace(",","."));if(isNaN(v))return;await wr("caja",{tipo:t,monto:v,nota:t,fecha:new Date().toLocaleString("es")});await sync();responder(`Caja privada actualizada.`)};
-$("bProy").onclick=async()=>{const n=prompt("Nombre del proyecto:");if(!n)return;await wr("proyectos",{nombre:n,ingresos:0,estado:"activo"});await sync()};
-$("bWake").onclick=()=>{wake=!wake;LS.set("wake",wake?"1":"0");$("bWake").classList.toggle("on",wake);responder(wake?"Modo palabra clave activado.":"Escucha libre activa.");if(wake&&!escuchando)escuchar()};
-$("bMute").onclick=e=>{vozOn=!vozOn;e.target.textContent=vozOn?"🔊 Voz":"🔇 Mute";if(!vozOn&&"speechSynthesis" in window)speechSynthesis.cancel()};
-$("bMp3").onclick=()=>$("fMp3").click();
-$("fMp3").onchange=e=>{const f=e.target.files[0];if(!f)return;if(mp3URL)URL.revokeObjectURL(mp3URL);mp3URL=URL.createObjectURL(f);addMsg("🎙️ Identidad de voz MP3 cargada.","a")};
 $("bExp").onclick=()=>{bajar("Naila_Backup.json",datos(),"application/json");responder("Respaldo descargado.")};
-$("bCrypt").onclick=cifrar;
+function tema(){const r=document.documentElement,oscuro=r.dataset.theme?r.dataset.theme==="dark":!matchMedia("(prefers-color-scheme:light)").matches;r.dataset.theme=oscuro?"light":"dark";LS.set("tema",r.dataset.theme)}
 $("bTema").onclick=tema;
-$("bClear").onclick=async()=>{if(!confirm("¿Purgar la memoria evolutiva?"))return;for(const s of STORES)await new Promise(r=>{const t=db.transaction(s,"readwrite");t.objectStore(s).clear();t.oncomplete=r});await sync();$("chat").innerHTML="";responder("Sistema purgado.")};
-[["📡 Radar","__radar"],["🎭 Modo Live",null],["🧠 Pensamiento","__pensar"],["🎯 Plan","plan del dia"],["❓ Ayuda",null]].forEach(([l,c])=>{const b=document.createElement("button");b.className="chip";b.textContent=l;b.onclick=()=>l.includes("Modo")?cambiarPersonalidad():(c===null?responder("Comandos: 'nuevo proyecto...', 'anota...', 'radar', 'gasto/ingreso...'"):c==="__pensar"?pensar():c==="__radar"?radar(true):enviar(c));$("chips").appendChild(b)});
+$("bMute").onclick=e=>{vozOn=!vozOn;e.target.textContent=vozOn?"🔊 Voz":"🔇 Mute";if(!vozOn&&"speechSynthesis" in window)speechSynthesis.cancel()};
+$("bClear").onclick=async()=>{if(!confirm("¿Purgar memoria?"))return;for(const s of STORES)await new Promise(r=>{const t=db.transaction(s,"readwrite");t.objectStore(s).clear();t.oncomplete=r});await sync();$("chat").innerHTML="";responder("Memoria purgada.")};
+
+[["📡 Radar","__radar"],["📺 Directo","__live"],["🎯 Plan","plan del dia"],["❓ Ayuda",null]].forEach(([l,c])=>{const b=document.createElement("button");b.className="chip";b.textContent=l;b.onclick=()=>c===null?responder("Comandos: 'nuevo proyecto...', 'anota...', 'gasto...', 'radar'"):c==="__radar"?radar(true):c==="__live"?$("liveOv").classList.add("open"):enviar(c);$("chips").appendChild(b)});
 
 /* ---------- AVATAR ---------- */
 const AVP={ojoI:[.485,.209],ojoD:[.593,.208],boca:[.565,.313],manoI:[.288,.455],manoD:[.879,.818]};
@@ -430,32 +361,22 @@ function palabra(){TG().forEach(el=>{el.classList.add("pal");setTimeout(()=>el.c
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 function decir(f){$("avCap").textContent=f;estado("feliz");hablar(f)}
 function guino(){const w=$("avWrap");w.classList.add("guino");setTimeout(()=>w.classList.remove("guino"),180)}
-function chispas(el){const r=el.getBoundingClientRect(),w=$("avWrap").getBoundingClientRect();for(let i=0;i<12;i++){const s=document.createElement("span");s.className="spk";s.style.left=(r.left+r.width/2-w.left)+"px";s.style.top=(r.top+r.height/2-w.top)+"px";s.style.setProperty("--dx",(Math.random()*120-60)+"px");s.style.setProperty("--dy",(Math.random()*120-60)+"px");$("avWrap").appendChild(s);setTimeout(()=>s.remove(),900)}}
-function hs(cls,p,fn){const d=document.createElement("div");d.className="hs "+cls;d.style.left=p[0]*100+"%";d.style.top=p[1]*100+"%";d.onclick=e=>{e.stopPropagation();fn(d)};$("avWrap").appendChild(d)}
-const ojo=()=>{guino();decir(rnd(["Sistemas neuronales activos 👀","Aprendiendo de cada interacción."]))};
-const mano=d=>{chispas(d);$("avWrap").classList.add("wave");setTimeout(()=>$("avWrap").classList.remove("wave"),600);decir(rnd(["Lealtad absoluta y lista para operar 🚀","¡Aquí estoy para ti!"]))};
-hs("ojo",AVP.ojoI,ojo);hs("ojo",AVP.ojoD,ojo);hs("mano",AVP.manoI,mano);hs("mano",AVP.manoD,mano);
-hs("boca",AVP.boca,()=>{decir("Te escucho.");if(!escuchando)escuchar()});
-$("avWrap").onclick=()=>decir(rnd(["Genio autónomo listo.","¿Qué ideamos hoy?"]));
-$("avOv").addEventListener("pointermove",e=>{const w=$("avWrap"),r=w.getBoundingClientRect(),c=v=>Math.max(-1,Math.min(1,v)),dx=c((e.clientX-r.left-r.width/2)/(r.width/2)),dy=c((e.clientY-r.top-r.height/2)/(r.height/2));w.style.transform=`perspective(700px) rotateY(${dx*9}deg) rotateX(${-dy*7}deg)`;w.style.setProperty("--gx",dx*4+"px");w.style.setProperty("--gy",dy*3+"px")});
-$("avOv").addEventListener("pointerleave",()=>{$("avWrap").style.transform="";$("avWrap").style.setProperty("--gx","0px");$("avWrap").style.setProperty("--gy","0px")});
-function abrirAvatar(){$("panel").classList.remove("open");$("avOv").classList.add("open");decir("Avatar activo. Tócame o háblame.")}
+function abrirAvatar(){$("panel").classList.remove("open");$("avOv").classList.add("open");decir("¡Aquí estoy! Lista para reventar el directo con toda la energía. ✨")}
 $("bAvatar").onclick=abrirAvatar;
 $("avX").onclick=()=>{$("avOv").classList.remove("open");if("speechSynthesis" in window)speechSynthesis.cancel()};
 setInterval(()=>{if($("avOv").classList.contains("open"))guino()},3800);
 (function(){const b=$("bubbleBtn");let sx,sy,ox,oy,mov=false,down=false,lt=0;
 b.addEventListener("pointerdown",e=>{down=true;mov=false;sx=e.clientX;sy=e.clientY;const r=b.getBoundingClientRect();ox=r.left;oy=r.top;b.setPointerCapture(e.pointerId)});
-b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-72,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-72,oy+dy))+"px";b.style.right="auto"}});
+b.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>8)mov=true;if(mov){b.style.left=Math.max(0,Math.min(innerWidth-76,ox+dx))+"px";b.style.top=Math.max(0,Math.min(innerHeight-76,oy+dy))+"px";b.style.right="auto"}});
 b.addEventListener("pointerup",()=>{down=false;if(mov)return;const n=Date.now();if(n-lt<350){lt=0;abrirAvatar()}else{lt=n;setTimeout(()=>{if(lt&&Date.now()-lt>=340){lt=0;$("panel").classList.toggle("open")}},360)}});})();
 
 /* ---------- ARRANQUE ---------- */
 const tm=LS.get("tema");if(tm)document.documentElement.dataset.theme=tm;
 $("bWake").classList.toggle("on",wake);
-if(currentPersona==="exec"){$("bPersona").textContent="🎭 Modo: Ejecutiva Privada";$("bPersona").style.color="var(--pu)"}
 verRed();revisarPin();initDB();
 setTimeout(()=>radar(false),6000);
 (async function(){
-  const aviso="🎤 Toca el micrófono para activar la escucha autónoma";
+  const aviso="🎤 Toca el micrófono para activar la escucha";
   try{
     const p=await navigator.permissions.query({name:"microphone"});
     if(p.state==="granted")setTimeout(()=>escuchar(true),1500);else vozEstado(aviso);
